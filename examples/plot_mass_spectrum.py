@@ -2,12 +2,12 @@ import math
 from pathlib import Path
 
 import hist
+import matplotlib
+import matplotlib.pyplot as plt
 import mplhep
 import numpy as np
 import pylhe
 from hist import Hist
-from matplotlib.figure import Figure
-from ROOT import TH1F, TCanvas, gROOT, kTRUE
 
 
 def invariant_mass(p1, p2):
@@ -22,44 +22,6 @@ def invariant_mass(p1, p2):
 
 def get_nbins(hist_range, width):
     return int((hist_range[1] - hist_range[0]) / width)
-
-
-def plot_ROOT():
-    gROOT.SetBatch(kTRUE)
-
-    hist_range = [15, 200]  # GeV
-    bin_width = 1  # GeV
-
-    hist_1 = TH1F(
-        "invariant_mass",
-        "Invariant Mass of Final State",
-        get_nbins(hist_range, bin_width),
-        hist_range[0],
-        hist_range[1],
-    )
-    hist_1.SetFillColor(38)
-
-    # Use the generator provided by pylhe to read the events.
-    lhe_path = (
-        Path.cwd()
-        .joinpath("drell-yan_test")
-        .joinpath("Events")
-        .joinpath("run_01")
-        .joinpath("unweighted_events.lhe")
-    )
-    for event in pylhe.readLHE(lhe_path):
-        hist_1.Fill(
-            invariant_mass(event.particles[-1], event.particles[-2]),
-            event.eventinfo.weight,
-        )
-
-    canvas = TCanvas()
-    canvas.SetLogy()
-
-    hist_1.Draw("BAR")
-    hist_1.GetXaxis().SetTitle("lepton pair mass [GeV]")
-    hist_1.GetYaxis().SetTitle(f"Count / [{bin_width} GeV]")
-    canvas.SaveAs("drell-yan-spectrum.png")
 
 
 if __name__ == "__main__":
@@ -79,7 +41,7 @@ if __name__ == "__main__":
     # Use the generator provided by pylhe to read the events.
     lhe_path = (
         Path.cwd()
-        .joinpath("drell-yan_test")
+        .joinpath("drell-yan_output")
         .joinpath("Events")
         .joinpath("run_01")
         .joinpath("unweighted_events.lhe")
@@ -93,8 +55,8 @@ if __name__ == "__main__":
 
     weights = np.array(_weights)
 
-    fig = Figure(figsize=(7, 5))
-    ax = fig.subplots()
+    matplotlib.use("AGG")  # Set non-GUI backend
+    fig, ax = plt.subplots(figsize=(7, 5))
 
     mplhep.set_style("ATLAS")
 
@@ -107,4 +69,4 @@ if __name__ == "__main__":
     ax.set_ylabel(f"Count / [{bin_width} GeV]")
     # ax.set_title("Drell-Yan invariant mass spectrum")
     ax.set_title("Drell-Yan")
-    fig.savefig("drell-yan-matplotlib.png")
+    fig.savefig("drell-yan-spectrum.png")
