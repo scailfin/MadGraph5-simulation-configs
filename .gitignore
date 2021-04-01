@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# MadGraph5
+py.py
+drell-yan_output/
