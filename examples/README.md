@@ -1,13 +1,13 @@
-# Drell-Yan Production in MadGraph
+# Drell-Yan Production Example in MadGraph
 
 ```
-docker run --rm -ti -v $PWD:$PWD -w $PWD scailfin/madgraph5-amc-nlo:mg5_amc3.1.0
+docker pull scailfin/madgraph5-amc-nlo:mg5_amc3.1.0
 ```
 
 then
 
 ```
-bash run_test.sh
+bash run_example.sh
 ```
 
 ## Notes
