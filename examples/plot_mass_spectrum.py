@@ -67,6 +67,16 @@ if __name__ == "__main__":
     ax.semilogy()
     ax.set_xlabel(r"$\ell\ell$ pair mass [GeV]")
     ax.set_ylabel(f"Count / [{bin_width} GeV]")
+
+    xtick_width = 10  # GeV
+    ax.set_xticks(
+        np.arange(
+            hist_range[0] + int(xtick_width / 2),
+            hist_range[1] + int(xtick_width / 2),
+            xtick_width,
+        )
+    )
+
     # ax.set_title("Drell-Yan invariant mass spectrum")
     ax.set_title("Drell-Yan")
     fig.savefig("drell-yan-spectrum.png")
