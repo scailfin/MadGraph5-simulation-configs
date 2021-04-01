@@ -10,6 +10,18 @@ then
 bash run_example.sh
 ```
 
+For plotting, create a Python 3 virtual environment, activate it, and then from the top level of the project pip install the dependencies
+
+```
+python -m pip install -r requirements.txt
+```
+
+Then plot the results of the example with
+
+```
+python plot_mass_spectrum.py
+```
+
 ## Notes
 
 ### MadGraph tutorials
