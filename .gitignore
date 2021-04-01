@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# ignore binaries
+*.png
+
+# MadGraph5
+py.py
+drell-yan_output/
