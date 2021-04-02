@@ -44,7 +44,7 @@ if __name__ == "__main__":
         .joinpath("drell-yan_output")
         .joinpath("Events")
         .joinpath("run_01")
-        .joinpath("unweighted_events.lhe")
+        .joinpath("unweighted_events.lhe.gz")
     )
     _weights = []
     for event in pylhe.readLHE(lhe_path):
