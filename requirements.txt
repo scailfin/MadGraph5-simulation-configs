@@ -1,2 +1,2 @@
 hist[plot]~=2.2.1
-pylhe~=0.2.0
+pylhe~=0.2.1
