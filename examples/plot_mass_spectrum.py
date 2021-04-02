@@ -5,7 +5,6 @@ import hist
 import matplotlib
 import matplotlib.pyplot as plt
 import mplhep
-import numpy as np
 import pylhe
 from hist import Hist
 
@@ -28,14 +27,14 @@ if __name__ == "__main__":
     hist_range = [15, 200]  # GeV
     bin_width = 1  # GeV
 
-    # TODO: Use weights
     hist_1 = Hist(
         hist.axis.Regular(
             get_nbins(hist_range, bin_width),
             hist_range[0],
             hist_range[1],
             name="invariant_mass",
-        )
+        ),
+        storage=hist.storage.Weight(),
     )
 
     # Use the generator provided by pylhe to read the events.
@@ -46,21 +45,18 @@ if __name__ == "__main__":
         .joinpath("run_01")
         .joinpath("unweighted_events.lhe.gz")
     )
-    _weights = []
+
+    # Slow given LHE needs parsing
     for event in pylhe.readLHE(lhe_path):
         hist_1.fill(
             invariant_mass(event.particles[-1], event.particles[-2]),
+            weight=event.eventinfo.weight,
         )
-        _weights.append(event.eventinfo.weight)
-
-    weights = np.array(_weights)
 
     matplotlib.use("AGG")  # Set non-GUI backend
-    fig, ax = plt.subplots(figsize=(7, 5))
-
     mplhep.set_style("ATLAS")
 
-    # mplhep.histplot(hist_1, w2=weights, histtype="fill", ax=ax)
+    fig, ax = plt.subplots()
     mplhep.histplot(hist_1, histtype="fill", ax=ax)
     ax.set_xlim(hist_range)
 
@@ -68,15 +64,5 @@ if __name__ == "__main__":
     ax.set_xlabel(r"$\ell\ell$ pair mass [GeV]")
     ax.set_ylabel(f"Count / [{bin_width} GeV]")
 
-    xtick_width = 10  # GeV
-    ax.set_xticks(
-        np.arange(
-            hist_range[0] + int(xtick_width / 2),
-            hist_range[1] + int(xtick_width / 2),
-            xtick_width,
-        )
-    )
-
-    # ax.set_title("Drell-Yan invariant mass spectrum")
-    ax.set_title("Drell-Yan")
+    ax.set_title("Drell-Yan invariant mass spectrum")
     fig.savefig("drell-yan-spectrum.png")
