@@ -6,4 +6,5 @@ image="${image_name}:${image_tag}"
 
 docker pull "${image}"
 # docker run --rm -ti -v "${PWD}/..":"${PWD}/.." -w "${PWD}" "${image}" 'bash run_drell-yan.sh'
-docker run --rm -v "${PWD}/..":"${PWD}/.." -w "${PWD}" "${image}" 'bash run_drell-yan.sh'
+# docker run --rm -v "${PWD}/..":"${PWD}/.." -w "${PWD}" "${image}" 'bash run_drell-yan.sh'
+docker run --rm -v "${PWD}/..":"${PWD}/.." -w "${PWD}" "${image}" 'bash run_ttbar.sh'
