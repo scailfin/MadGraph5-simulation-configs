@@ -3,5 +3,5 @@ output drell-yan_output
 launch drell-yan_output
   # Use PYTHIA8 for the shower/hadronization
   shower=Pythia8
-  # Generate 1.0e+06 events
-  set nevents 1000000
+  # Generate 1.0e+05 events
+  set nevents 100000
