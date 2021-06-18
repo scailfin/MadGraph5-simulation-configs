@@ -12,7 +12,10 @@ fi
 
 # $HOME is /u/sciteam/${USER}
 SHIFTER_IMAGE="neubauergroup/bluewaters-mg5_amc:3.1.1"
-aprun -b -N 1 -cc none \
+aprun \
+  --bypass-app-transfer \
+  --pes-per-node 1 \
+  --cpu-binding none \
   -- shifter \
     --clearenv \
     --image="${SHIFTER_IMAGE}" \
