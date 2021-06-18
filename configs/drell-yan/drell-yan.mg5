@@ -1,6 +1,0 @@
-generate p p > l+ l-
-output drell-yan_output
-launch drell-yan_output
-   # Use PYTHIA8 for the shower/hadronization
-   shower=Pythia8
-   set nevents 1000
