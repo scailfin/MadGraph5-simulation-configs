@@ -4,7 +4,7 @@
   "output": "drell-yan",
   "options": {
     "shower": "Pythia8",
-    "nevents": 1000000
+    "nevents": 100000
   },
   "version": "0.1.0"
 }
