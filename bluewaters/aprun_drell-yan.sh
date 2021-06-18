@@ -3,8 +3,10 @@
 # Ensure shifter enabled
 module load shifter
 
-if [ -d user_scratch ];then
-  rm -rf user_scratch/*
+OUTPUT_DIR_NAME="drell-yan_output"
+OUTPUT_DIR="/mnt/a/${HOME}/user_scratch/${OUTPUT_DIR_NAME}"
+if [ -d "${OUTPUT_DIR}" ];then
+  rm -rf "${OUTPUT_DIR}"
 fi
 
 # $HOME is /u/sciteam/${USER}
