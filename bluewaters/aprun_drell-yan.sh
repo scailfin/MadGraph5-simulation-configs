@@ -3,10 +3,11 @@
 # Ensure shifter enabled
 module load shifter
 
-OUTPUT_DIR_NAME="drell-yan_output"
-OUTPUT_DIR="/mnt/a/${HOME}/user_scratch/${OUTPUT_DIR_NAME}"
-if [ -d "${OUTPUT_DIR}" ];then
-  rm -rf "${OUTPUT_DIR}"
+OUTPUT_DIR="drell-yan_output"
+OUTPUT_BASE_PATH="/mnt/a/${HOME}/user_scratch"
+OUTPUT_PATH="${OUTPUT_BASE_PATH}/${OUTPUT_DIR}"
+if [ -d "${OUTPUT_PATH}" ];then
+  rm -rf "${OUTPUT_PATH}"
 fi
 
 # $HOME is /u/sciteam/${USER}
@@ -15,7 +16,7 @@ aprun -b -N 1 -cc none \
   -- shifter \
     --clearenv \
     --image="${SHIFTER_IMAGE}" \
-    --volume=/mnt/a/"${HOME}"/user_scratch:/root/data \
+    --volume="${OUTPUT_BASE_PATH}":/root/data \
     --volume=/mnt/a/"${HOME}":/mnt/a/"${HOME}" \
     --workdir=/root/data \
     -- /bin/bash -c 'mg5_aMC /mnt/a/'"${HOME}"'/MadGraph5-simulation-configs/configs/madgraph5/drell-yan.mg5'
