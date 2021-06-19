@@ -28,7 +28,7 @@
 module load shifter
 
 OUTPUT_DIR="drell-yan_output"
-OUTPUT_BASE_PATH="/scratch/sciteam/${USER}/${PBS_JOBID}"
+OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PBS_JOBNAME}/${PBS_JOBID}"
 OUTPUT_PATH="${OUTPUT_BASE_PATH}/${OUTPUT_DIR}"
 mkdir -p "${OUTPUT_BASE_PATH}"
 if [ -d "${OUTPUT_PATH}" ];then
