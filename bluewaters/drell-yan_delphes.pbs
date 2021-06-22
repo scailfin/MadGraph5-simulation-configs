@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Set the number of processing elements (PEs) or cores
+# Set the number of PEs per node
+#PBS -l nodes=1:ppn=8:xk
+
+# Set the wallclock time
+#PBS -l walltime=3:00:00
+
+# Use shifter queue
+#PBS -l gres=shifter
+
+# Set the job name
+#PBS -N drell-yan_delphes
+
+# Set the job stdout and stderr
+#PBS -e "${PBS_JOBNAME}.${PBS_JOBID}.err"
+#PBS -o "${PBS_JOBNAME}.${PBS_JOBID}.out"
+
+# Set email notification on termination or abort
+#PBS -m ea
+#PBS -M matthew.feickert@cern.ch
+
+# Set allocation to charge
+#PBS -A bbdz
+
+# Ensure shifter enabled
+module load shifter
+
+OUTPUT_DIR="drell-yan_output"
+OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PBS_JOBNAME}/${PBS_JOBID}"
+OUTPUT_PATH="${OUTPUT_BASE_PATH}/${OUTPUT_DIR}"
+mkdir -p "${OUTPUT_BASE_PATH}"
+if [ -d "${OUTPUT_PATH}" ];then
+  rm -rf "${OUTPUT_PATH}"
+fi
+
+INPUT_FILE_PATH="/mnt/c/scratch/sciteam/${USER}/drell-yan/nevents_10e4_run/drell-yan_output/Events/run_01/tag_1_pythia8_events.hepmc"
+
+# $HOME is /u/sciteam/${USER}
+SHIFTER_IMAGE="scailfin/delphes-python-centos:3.5.0"
+shifterimg pull "${SHIFTER_IMAGE}"
+
+aprun \
+  --bypass-app-transfer \
+  --pes-per-node 1 \
+  --cpu-binding none \
+  -- shifter \
+    --clearenv \
+    --image="${SHIFTER_IMAGE}" \
+    --volume="${OUTPUT_BASE_PATH}":/root/data \
+    --volume=/mnt/a/"${HOME}":/mnt/a/"${HOME}" \
+    --workdir=/root/data \
+    -- /bin/bash -c 'DelphesSTDHEP \
+      /usr/local/venv/cards/delphes_card_ATLAS.tcl \
+      delphes_output.root \
+      '"${INPUT_FILE_PATH}"
