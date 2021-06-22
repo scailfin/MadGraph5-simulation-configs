@@ -51,7 +51,8 @@ aprun \
     --volume="${OUTPUT_BASE_PATH}":/root/data \
     --volume=/mnt/a/"${HOME}":/mnt/a/"${HOME}" \
     --workdir=/root/data \
-    -- /bin/bash -c 'DelphesHepMC2 \
-      /usr/local/venv/cards/delphes_card_ATLAS.tcl \
-      delphes_output.root \
-      '"${INPUT_FILE_PATH}"
+    -- /bin/bash -c '. scl_source enable devtoolset-8 && \
+      DelphesHepMC2 \
+        /usr/local/venv/cards/delphes_card_ATLAS.tcl \
+        delphes_output.root \
+        '"${INPUT_FILE_PATH}"
