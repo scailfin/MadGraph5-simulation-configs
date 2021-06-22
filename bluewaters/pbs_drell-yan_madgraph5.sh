@@ -1,3 +1,3 @@
 #!/bin/bash
 
-qsub pbs_drell-yan.pbs
+qsub drell-yan_madgraph5.pbs
