@@ -43,6 +43,8 @@ INPUT_FILE_PATH="/mnt/c/scratch/sciteam/${USER}/drell-yan/nevents_10e4_run/drell
 SHIFTER_IMAGE="scailfin/delphes-python-centos:3.5.0"
 shifterimg pull "${SHIFTER_IMAGE}"
 
+printenv
+
 aprun \
   --bypass-app-transfer \
   --pes-per-node 1 \
@@ -53,7 +55,8 @@ aprun \
     --volume="${OUTPUT_BASE_PATH}":/root/data \
     --volume=/mnt/a/"${HOME}":/mnt/a/"${HOME}" \
     --workdir=/root/data \
-    -- /bin/bash -c 'export LD_LIBRARY_PATH=$(echo -e "${LD_LIBRARY_PATH//\:/\\n}" | grep -v /opt/cray/nvidia/390.46-1_1.0502.2481.1.1.gem/lib64 | tr "\n" ":") && \
+    -- /bin/bash -c 'printenv && export LD_LIBRARY_PATH=$(echo -e "${LD_LIBRARY_PATH//\:/\\n}" | grep -v /opt/cray/nvidia/390.46-1_1.0502.2481.1.1.gem/lib64 | tr "\n" ":") && \
+      printenv && \
       DelphesHepMC2 \
         /usr/local/venv/cards/delphes_card_ATLAS.tcl \
         delphes_output.root \
