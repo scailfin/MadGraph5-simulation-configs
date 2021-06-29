@@ -53,7 +53,7 @@ aprun \
     --volume="${OUTPUT_BASE_PATH}":/root/data \
     --volume=/mnt/a/"${HOME}":/mnt/a/"${HOME}" \
     --workdir=/root/data \
-    -- /bin/bash -c '. scl_source enable devtoolset-8 && \
+    -- /bin/bash -c 'export LD_LIBRARY_PATH=$(echo -e "${LD_LIBRARY_PATH//\:/\\n}" | grep -v /opt/cray/nvidia/390.46-1_1.0502.2481.1.1.gem/lib64 | tr "\n" ":") && \
       DelphesHepMC2 \
         /usr/local/venv/cards/delphes_card_ATLAS.tcl \
         delphes_output.root \
