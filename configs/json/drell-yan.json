@@ -1,0 +1,10 @@
+{
+  "type": "madgraph5",
+  "process": "p p > l+ l-",
+  "output": "drell-yan",
+  "options": {
+    "shower": "Pythia8",
+    "nevents": 1000000
+  },
+  "version": "0.1.0"
+}
