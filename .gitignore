@@ -131,6 +131,9 @@ dmypy.json
 # ignore binaries
 *.png
 
+# ignore VSCode configs
+.vscode
+
 # MadGraph5
 py.py
 drell-yan_output/
