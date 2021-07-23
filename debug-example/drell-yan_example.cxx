@@ -55,6 +55,44 @@ int main(int argc, char** argv) {
 
     std::cout << "chain " << &chain << "\n";
 
+    // As these need to be branch names in the TTree this means that there
+    // necessarily needs to have a preprcoessing stage outside of the
+    // MoMEMta analysis stage
+    // Example:
+    //    $ root -l tt_20evt.root  # This is the example tutorial file
+    //    root [0]
+    //    Attaching file tt_20evt.root as _file0...
+    //    (TFile *) 0x55f4f03130d0
+    //    root [1] _file0->ls()
+    //    TFile**		tt_20evt.root
+    //    TFile*		tt_20evt.root
+    //    KEY: TTree	t;1	t
+    //    root [2] lepton1_branch = t->GetBranch("lep1_p4")
+    //    (TBranch *) @0x7fff98b15890
+    //    root [3] lepton1_branch->Print()
+    //    *Branch  :lep1_p4                                                            *
+    //    *Entries :       20 : BranchElement (see below)                              *
+    //    *............................................................................*
+    //    *Br   81 :fCoordinates :                                                     *
+    //    *Entries :       20 : Total  Size=       3958 bytes  One basket in memory    *
+    //    *Baskets :        0 : Basket Size=      32000 bytes  Compression=   1.00     *
+    //    *............................................................................*
+    //    *Br   82 :fCoordinates.fPt : Float_t                                         *
+    //    *Entries :       20 : Total  Size=        789 bytes  All baskets in memory   *
+    //    *Baskets :        1 : Basket Size=      32000 bytes  Compression=   1.00     *
+    //    *............................................................................*
+    //    *Br   83 :fCoordinates.fEta : Float_t                                        *
+    //    *Entries :       20 : Total  Size=        795 bytes  All baskets in memory   *
+    //    *Baskets :        1 : Basket Size=      32000 bytes  Compression=   1.00     *
+    //    *............................................................................*
+    //    *Br   84 :fCoordinates.fPhi : Float_t                                        *
+    //    *Entries :       20 : Total  Size=        795 bytes  All baskets in memory   *
+    //    *Baskets :        1 : Basket Size=      32000 bytes  Compression=   1.00     *
+    //    *............................................................................*
+    //    *Br   85 :fCoordinates.fM : Float_t                                          *
+    //    *Entries :       20 : Total  Size=        783 bytes  All baskets in memory   *
+    //    *Baskets :        1 : Basket Size=      32000 bytes  Compression=   1.00     *
+    //    *............................................................................*
     TTreeReaderValue<LorentzVectorM> lep_plus_p4M(myReader, "lep1_p4");
     TTreeReaderValue<LorentzVectorM> lep_minus_p4M(myReader, "lep2_p4");
 
