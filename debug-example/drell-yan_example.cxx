@@ -47,8 +47,9 @@ int main(int argc, char** argv) {
     /*
      * Load events from input file, retrieve reconstructed particles and MET
      */
-    TChain chain("t");
+    TChain chain("Delphes");
     // chain.Add("figure out how to make this a configurable path.root");
+    // Path needs to be findable inside of Docker container
     chain.Add("/data/hepmc_output/delphes_output/delphes_output_nevent_10e4.root");
     TTreeReader myReader(&chain);
 
@@ -60,7 +61,7 @@ int main(int argc, char** argv) {
     /*
      * Define output TTree, which will contain the weights we're computing (including uncertainty and computation time)
      */
-    std::unique_ptr<TTree> out_tree = std::make_unique<TTree>("t", "t");
+    std::unique_ptr<TTree> out_tree = std::make_unique<TTree>("Delphes", "Delphes");
     double weight_DY, weight_DY_err, weight_DY_time;
     out_tree->Branch("weight_DY", &weight_DY);
     out_tree->Branch("weight_DY_err", &weight_DY_err);
@@ -77,6 +78,19 @@ int main(int argc, char** argv) {
 
     // Instantiate MoMEMta using a **frozen** configuration
     MoMEMta weight(configuration.freeze());
+
+    while (myReader.Next()) {
+        /*
+         * Prepare the LorentzVectors passed to MoMEMta:
+         * In the input file they are written in the PtEtaPhiM<float> basis,
+         * while MoMEMta expects PxPyPzE<double>, so we have to perform this change of basis:
+         *
+         * We define here Particles, allowing MoMEMta to correctly map the inputs to the configuration file.
+         * The string identifier used here must be the same as used to declare the inputs in the config file
+         */
+        momemta::Particle lep_plus("lepton1",  LorentzVector { lep_plus_p4M->Px(), lep_plus_p4M->Py(), lep_plus_p4M->Pz(), lep_plus_p4M->E() });
+        momemta::Particle lep_minus("lepton2", LorentzVector { lep_minus_p4M->Px(), lep_minus_p4M->Py(), lep_minus_p4M->Pz(), lep_minus_p4M->E() });
+    }
 
     // ...
 
