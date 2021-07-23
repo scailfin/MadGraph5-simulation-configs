@@ -13,6 +13,23 @@ Once jobs are submitted they can be tracked in the batch system with
 qstat -u $USER
 ```
 
+### Example: Drell-Yan
+
+* Ensure there is a MadGraph5 steering script at `configs/madgraph5/drell-yan.mg5`
+* One would then submit the Drell-Yan job with
+
+```console
+bash pbs_drell-yan_madgraph5.sh
+```
+
+to generate LHE and HEPMC2 simulation files
+
+* Then once the MadGraph5 and PYTHIA8 simulation is done, run DELPHES on the HEPMC2 input with
+
+```console
+bash pbs_drell-yan_delphes.sh
+```
+
 ## Interactive Session
 
 If you need to run an interactive session (which will be slower) you can first allocate resources on the `shifter` queue from Torque with `qsub`
