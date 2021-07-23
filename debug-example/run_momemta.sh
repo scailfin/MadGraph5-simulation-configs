@@ -32,6 +32,10 @@ cmake --build MatrixElements/pp_drell_yan/build \
 if [ -d build ];then
   rm -rf build
 fi
+# Cleanup from failed runs
+if [ -f core ]; then
+  rm core
+fi
 cmake \
     -DCMAKE_INSTALL_PREFIX=/usr/local/venv \
     -S . \

@@ -67,7 +67,12 @@ BuildInitialState.boost = {
 
 jacobians = {'phaseSpaceOut::phase_space'}
 
-MatrixElement.dy = {
+genParticles = {
+	lepton1.reco_p4,
+	lepton2.reco_p4,
+}
+
+MatrixElement.drellyan = {
   pdf = 'CT10nlo',
   pdf_scale = parameter('Z_mass'),
 
@@ -95,6 +100,10 @@ MatrixElement.dy = {
 
   jacobians = jacobians
 }
+
+
+-- Define quantity to be returned to MoMEMta
+integrand("drellyan::output")
 
 -- inputs_before_perm = {
 --     'tf_p1::output',

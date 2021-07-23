@@ -76,8 +76,7 @@ int main(int argc, char** argv) {
     ConfigurationReader configuration("drell-yan_example.lua");
 
     // Instantiate MoMEMta using a **frozen** configuration
-    // BROKEN: No integrand found. Define which module's output you want to use as the integrand using the lua `integrand` function.
-    // MoMEMta weight(configuration.freeze());
+    MoMEMta weight(configuration.freeze());
 
     // ...
 
