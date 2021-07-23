@@ -137,3 +137,7 @@ dmypy.json
 # MadGraph5
 py.py
 drell-yan_output/
+MatrixElements/
+
+# Failure
+core
