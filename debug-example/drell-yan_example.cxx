@@ -93,6 +93,31 @@ int main(int argc, char** argv) {
     //    *Entries :       20 : Total  Size=        783 bytes  All baskets in memory   *
     //    *Baskets :        1 : Basket Size=      32000 bytes  Compression=   1.00     *
     //    *............................................................................*
+    //
+    // and then with the DELPHES output
+    //
+    //    $ root -l delphes_output_nevent_10e4.root
+    //    root [0]
+    //    (TFile *) 0x5633fbd61b40
+    //    root [1] _file0->ls()
+    //    TFile**		delphes_output_nevent_10e4.root
+    //    TFile*		delphes_output_nevent_10e4.root
+    //    KEY: TProcessID	ProcessID0;1	9b0e9308-d561-11eb-9149-020011acbeef
+    //    KEY: TTree	Delphes;1	Analysis tree
+    //    root [2] particle_branch = Delphes->GetBranch("Particle")
+    //    (TBranch *) @0x7ffcff7f21a0
+    //    root [3] particle_branch->Print()
+    //    *Br    0 :Particle  : Int_t Particle_                                        *
+    //    *Entries :    10000 : Total  Size=     131038 bytes  File Size  =      39636 *
+    //    *Baskets :       20 : Basket Size=      64000 bytes  Compression=   2.06     *
+    //    *............................................................................*
+    //    *Br    1 :Particle.fUniqueID : UInt_t fUniqueID[Particle_]                   *
+    //    *Entries :    10000 : Total  Size=   49119923 bytes  File Size  =   15014630 *
+    //    *Baskets :       78 : Basket Size=    1790976 bytes  Compression=   3.27     *
+    //    *............................................................................*
+    //    ...
+
+
     TTreeReaderValue<LorentzVectorM> lep_plus_p4M(myReader, "lep1_p4");
     TTreeReaderValue<LorentzVectorM> lep_minus_p4M(myReader, "lep2_p4");
 
