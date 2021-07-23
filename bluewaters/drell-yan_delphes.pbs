@@ -43,6 +43,11 @@ INPUT_FILE_PATH="/mnt/c/scratch/sciteam/${USER}/drell-yan/nevents_10e4_run/drell
 SHIFTER_IMAGE="scailfin/delphes-python-centos:3.5.0"
 shifterimg pull "${SHIFTER_IMAGE}"
 
+# The need to edit the contents of LD_LIBRARY_PATH is to remove NVIDIA libraries
+# that place versions of libOpenGL in LD_LIBRARY_PATH that conflict with the
+# Delphes Docker image and give a symbol lookup error.
+# c.f. https://bluewaters.ncsa.illinois.edu/shifter#remarks-on-running-apps
+# c.f. https://jira.ncsa.illinois.edu/browse/BWAPPS-7234
 aprun \
   --bypass-app-transfer \
   --pes-per-node 1 \
