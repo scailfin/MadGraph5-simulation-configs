@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
     chain.Add("/data/hepmc_output/delphes_output/delphes_output_nevent_10e4.root");
     TTreeReader myReader(&chain);
 
-    std::cout << "chain" << chain << "\n";
+    std::cout << "chain " << &chain << "\n";
 
     return 0;
 }

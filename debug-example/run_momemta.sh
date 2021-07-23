@@ -25,7 +25,6 @@ cmake --build MatrixElements/pp_drell_yan/build \
     --parallel $(($(nproc) - 1))
 
 # Example level build
-# popd
 if [ -d build ];then
   rm -rf build
 fi
@@ -38,6 +37,5 @@ cmake --build build \
     --clean-first \
     --parallel $(($(nproc) - 1))
 
-# ls -lhtra build/momemta/
-# # Current configuration in drell_yan.cxx requires running from top level of example dir
-# ./build/momemta/drell_yan.exe
+# Current configuration in drell_yan.cxx requires running from top level of example dir
+./build/drell-yan_example.exe
