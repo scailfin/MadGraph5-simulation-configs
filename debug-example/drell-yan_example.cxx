@@ -13,7 +13,7 @@
 #include <chrono>
 #include <memory>
 
-#include <iostream>
+#include <iostream>  // for printing tchain for sanity check
 
 using namespace std::chrono;
 
@@ -53,6 +53,29 @@ int main(int argc, char** argv) {
     TTreeReader myReader(&chain);
 
     std::cout << "chain " << &chain << "\n";
+
+    TTreeReaderValue<LorentzVectorM> lep_plus_p4M(myReader, "lep1_p4");
+    TTreeReaderValue<LorentzVectorM> lep_minus_p4M(myReader, "lep2_p4");
+
+    /*
+     * Define output TTree, which will contain the weights we're computing (including uncertainty and computation time)
+     */
+    std::unique_ptr<TTree> out_tree = std::make_unique<TTree>("t", "t");
+    double weight_DY, weight_DY_err, weight_DY_time;
+    out_tree->Branch("weight_DY", &weight_DY);
+    out_tree->Branch("weight_DY_err", &weight_DY_err);
+    out_tree->Branch("weight_DY_time", &weight_DY_time);
+
+    /*
+     * Prepare MoMEMta to compute the weights
+     */
+    // Set MoMEMta's logging level to `debug`
+    logging::set_level(logging::level::debug);
+
+    // ...
+
+    // Save our output TTree
+    out_tree->SaveAs("drell-yan_weights_test.root");
 
     return 0;
 }
