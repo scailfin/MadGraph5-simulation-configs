@@ -7,6 +7,12 @@ To submit jobs to run on PBS Torque, write a PBS submission file, and then submi
 For example, `drell-yan_madgraph5.pbs` defines all the commands required to run the example MadGraph5 simulation for Drell-Yan defined in `configs/madgraph5/drell-yan.mg5` on Shifter inside a specified container.
 So the PBS job file (`drell-yan_madgraph5.pbs`) is where you define what you want to have happen, and then you submit it with `qsub` just using a 1 line Bash script (`pbs_drell-yan_madgraph5.sh`) for easy of use and to make keeping track of workflows easier.
 
+Once jobs are submitted they can be tracked in the batch system with
+
+```console
+qstat -u $USER
+```
+
 ## Interactive Session
 
 If you need to run an interactive session (which will be slower) you can first allocate resources on the `shifter` queue from Torque with `qsub`
