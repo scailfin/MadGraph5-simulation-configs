@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     if args.input[-4:] == "root":
         print("Running over single root file:")
-        print("   > %s" % args.input)
+        print(f"   > {args.input}")
         chain.Add(args.input)
     else:
         print("Running over list of root files:")
@@ -45,7 +45,7 @@ if __name__ == "__main__":
             chain.Add(line.rstrip("\n"))
 
     numFiles = chain.GetNtrees()
-    print("Loaded %s chains..." % numFiles)
+    print(f"Loaded {numFiles} chains...")
 
     # Make sure that the interpreter points to the DELPHES classes in order to read through DELPHES events.
     # may need to run something like: export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:/home/mhance/Delphes/Delphes-3.4.1/:/home/mhance/Delphes/Delphes-3.4.1/external/
@@ -82,7 +82,7 @@ if __name__ == "__main__":
             entry += 1
 
             if entry != 0 and entry % 10000 == 0:
-                print("%d events processed for sum of weights" % entry)
+                print(f"{entry} events processed for sum of weights")
                 sys.stdout.flush()
 
             # wrapper around Delphes events to make some things easier
@@ -99,7 +99,7 @@ if __name__ == "__main__":
         entry += 1
 
         if entry != 0 and entry % 10000 == 0:
-            print("%d events processed" % entry)
+            print(f"{entry} events processed")
             sys.stdout.flush()
 
         # wrapper around Delphes events to make some things easier
