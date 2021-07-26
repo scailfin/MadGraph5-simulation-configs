@@ -86,8 +86,8 @@ if __name__ == "__main__":
                 sys.stdout.flush()
 
             # wrapper around Delphes events to make some things easier
-            de = DelphesEvent(event)
-            sumofweights += de.weight
+            delphes_event = DelphesEvent(event)
+            sumofweights += delphes_event.weight
 
         # compute appropriate weights for each event
         weightscale *= XS / sumofweights
@@ -103,34 +103,36 @@ if __name__ == "__main__":
             sys.stdout.flush()
 
         # wrapper around Delphes events to make some things easier
-        de = DelphesEvent(event)
-        weight = de.weight * weightscale
+        delphes_event = DelphesEvent(event)
+        weight = delphes_event.weight * weightscale
 
         # fill histograms for all events
-        allev.fill(de, weight)
+        allev.fill(delphes_event, weight)
 
         # preselection: MET>120, >=2 jets
-        if de.met.Pt() < 150 or len(de.jets) < 2:
+        if delphes_event.met.Pt() < 150 or len(delphes_event.jets) < 2:
             continue
-        presel.fill(de, weight)
+        presel.fill(delphes_event, weight)
 
         # SR: zero e/mu/tau, deltaeta>3, mjj>1 TeV, nJets==2
-        if len(de.tautags) != 0:
+        if len(delphes_event.tautags) != 0:
             continue
-        if len(de.elecs) != 0:
+        if len(delphes_event.elecs) != 0:
             continue
-        if len(de.muons) != 0:
+        if len(delphes_event.muons) != 0:
             continue
-        if len(de.exclJets) < 2:
+        if len(delphes_event.exclJets) < 2:
             continue
-        mjj = (de.exclJets[0].P4() + de.exclJets[1].P4()).M()
+        mjj = (delphes_event.exclJets[0].P4() + delphes_event.exclJets[1].P4()).M()
         if mjj < 1000:
             continue
-        deta = abs(de.exclJets[0].P4().Eta() - de.exclJets[1].P4().Eta())
+        deta = abs(
+            delphes_event.exclJets[0].P4().Eta() - delphes_event.exclJets[1].P4().Eta()
+        )
         if deta < 3.0:
             continue
 
-        SR.fill(de, weight)
+        SR.fill(delphes_event, weight)
         # SR_jetbins.fill(de,weight)
 
     allev.write()
