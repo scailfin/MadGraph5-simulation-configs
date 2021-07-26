@@ -3,7 +3,6 @@
 # You can "safely" ignore the warnings about the missing dictionaries...
 
 import argparse
-import os
 import re
 import sys
 
@@ -47,14 +46,15 @@ if __name__ == "__main__":
     numFiles = chain.GetNtrees()
     print(f"Loaded {numFiles} chains...")
 
-    # Make sure that the interpreter points to the DELPHES classes in order to read through DELPHES events.
-    # may need to run something like: export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:/home/mhance/Delphes/Delphes-3.4.1/:/home/mhance/Delphes/Delphes-3.4.1/external/
-    delphespath = os.environ.get("DELPHES_PATH")
-    ROOT.gInterpreter.Declare(f'#include "{delphespath}/classes/DelphesClasses.h"')
-    ROOT.gInterpreter.Declare(
-        f'#include "{delphespath}/external/ExRootAnalysis/ExRootTreeReader.h"'
-    )
-    ROOT.gSystem.Load(f"{delphespath}/libDelphes.so")
+    # TODO: Remove as Mike didn't put DELPHES on PATH like I did
+    # # Make sure that the interpreter points to the DELPHES classes in order to read through DELPHES events.
+    # # may need to run something like: export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:/home/mhance/Delphes/Delphes-3.4.1/:/home/mhance/Delphes/Delphes-3.4.1/external/
+    # delphespath = os.environ.get("DELPHES_PATH")
+    # ROOT.gInterpreter.Declare(f'#include "{delphespath}/classes/DelphesClasses.h"')
+    # ROOT.gInterpreter.Declare(
+    #     f'#include "{delphespath}/external/ExRootAnalysis/ExRootTreeReader.h"'
+    # )
+    # ROOT.gSystem.Load(f"{delphespath}/libDelphes.so")
 
     # Import mT2 calculator
     # ROOT.gSystem.Load("/export/share/diskvault2/mhance/PhenoPaper2018/Ana/CalcGenericMT2/src/libBinnedLik.so")
