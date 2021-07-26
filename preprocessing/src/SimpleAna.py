@@ -50,11 +50,11 @@ if __name__ == "__main__":
     # Make sure that the interpreter points to the DELPHES classes in order to read through DELPHES events.
     # may need to run something like: export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:/home/mhance/Delphes/Delphes-3.4.1/:/home/mhance/Delphes/Delphes-3.4.1/external/
     delphespath = os.environ.get("DELPHES_PATH")
-    ROOT.gInterpreter.Declare('#include "%s/classes/DelphesClasses.h"' % delphespath)
+    ROOT.gInterpreter.Declare(f'#include "{delphespath}/classes/DelphesClasses.h"')
     ROOT.gInterpreter.Declare(
-        '#include "%s/external/ExRootAnalysis/ExRootTreeReader.h"' % delphespath
+        f'#include "{delphespath}/external/ExRootAnalysis/ExRootTreeReader.h"'
     )
-    ROOT.gSystem.Load("%s/libDelphes.so" % delphespath)
+    ROOT.gSystem.Load(f"{delphespath}/libDelphes.so")
 
     # Import mT2 calculator
     # ROOT.gSystem.Load("/export/share/diskvault2/mhance/PhenoPaper2018/Ana/CalcGenericMT2/src/libBinnedLik.so")

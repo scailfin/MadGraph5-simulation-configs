@@ -30,7 +30,7 @@ def json_to_mg5(config):
 )
 def generate_config(config_path):
     config_path = Path().cwd().joinpath(config_path)
-    with open(config_path, "r") as config_file:
+    with open(config_path) as config_file:
         config = json.load(config_file)
 
     if config["type"] == "madgraph5":

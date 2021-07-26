@@ -55,9 +55,7 @@ class Hists:
         bnamemod = bname
         if blen > 1:
             bnamemod = "%s[%d]" % (bname, blen)
-        self.tree.Branch(
-            bname, self.branches[bname], "{}/{}".format(bnamemod, btype.upper())
-        )
+        self.tree.Branch(bname, self.branches[bname], f"{bnamemod}/{btype.upper()}")
 
     def __init__(self, tag, topdir, detaillevel=99):
         self.topdir = topdir
@@ -448,9 +446,7 @@ class tthhTree:
         bnamemod = bname
         if blen > 1:
             bnamemod = "%s[%d]" % (bname, blen)
-        self.tree.Branch(
-            bname, self.branches[bname], "{}/{}".format(bnamemod, btype.upper())
-        )
+        self.tree.Branch(bname, self.branches[bname], f"{bnamemod}/{btype.upper()}")
 
     def __init__(self, tag, topdir, detaillevel=99):
         self.topdir = topdir
