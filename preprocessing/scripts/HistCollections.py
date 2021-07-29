@@ -6,12 +6,6 @@ import ROOT
 class DelphesEvent:
     def __init__(self, event, highlumi=False):
         self.event = event
-        # TODO
-        # Question for Giordon:
-        # Why iterate here, when just taking first event anyway?
-        # for _event in event.Event:
-        #     self.weight = _event.Weight
-        #     break  # only one event
         # Only one event
         try:
             weight = event.Event[0].Weight
