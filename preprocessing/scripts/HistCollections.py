@@ -264,6 +264,12 @@ class Hists:
         self.add_branch("lep1Eta", "f")
         self.add_branch("lep1Phi", "f")
 
+        # Temporary hack to get 4-momentum components out
+        self.add_branch("lep1_Px", "f")
+        self.add_branch("lep1_Py", "f")
+        self.add_branch("lep1_Pz", "f")
+        self.add_branch("lep1_E", "f")
+
         self.add_branch("tau1PT", "f")
         self.add_branch("tau1Eta", "f")
         self.add_branch("tau1Phi", "f")
@@ -444,6 +450,11 @@ class Hists:
             self.branches["lep1PT"][0] = leading_lepton.Pt()
             self.branches["lep1Eta"][0] = leading_lepton.Eta()
             self.branches["lep1Phi"][0] = leading_lepton.Phi()
+            # Temporary hack to get 4-momentum components out
+            self.branches["lep1_Px"][0] = leading_lepton.Px()
+            self.branches["lep1_Py"][0] = leading_lepton.Py()
+            self.branches["lep1_Pz"][0] = leading_lepton.Pz()
+            self.branches["lep1_E"][0] = leading_lepton.E()
         else:
             self.branches["lep1PT"][0] = default_fill
             self.branches["lep1Eta"][0] = default_fill
