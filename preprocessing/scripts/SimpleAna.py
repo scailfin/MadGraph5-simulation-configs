@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+# Derivative work from https://gitlab.cern.ch/scipp/mario-mapyde
 # You can "safely" ignore the warnings about the missing dictionaries...
 
 import argparse

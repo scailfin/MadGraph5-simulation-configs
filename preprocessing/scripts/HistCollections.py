@@ -1,3 +1,4 @@
+# Derivative work from https://gitlab.cern.ch/scipp/mario-mapyde
 from array import array
 
 import ROOT
