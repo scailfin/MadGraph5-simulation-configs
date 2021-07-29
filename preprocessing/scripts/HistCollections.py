@@ -6,9 +6,17 @@ import ROOT
 class DelphesEvent:
     def __init__(self, event, highlumi=False):
         self.event = event
-        for _event in event.Event:
-            self.weight = _event.Weight
-            break  # only one event
+        # TODO
+        # Question for Giordon:
+        # Why iterate here, when just taking first event anyway?
+        # for _event in event.Event:
+        #     self.weight = _event.Weight
+        #     break  # only one event
+        try:
+            weight = event.Event[0].Weight
+        except AttributeError:
+            weight = 0
+        self.weight = weight
 
         # self.met=TLorentzVector()
         for met in event.MissingET:
