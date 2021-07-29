@@ -56,12 +56,16 @@ class DelphesEvent:
 
 
 class Hists:
-    def addbranch(self, bname, btype, blen=1, default=0):
-        self.branches[bname] = array(btype, blen * [default])
-        bnamemod = bname
-        if blen > 1:
-            bnamemod = "%s[%d]" % (bname, blen)
-        self.tree.Branch(bname, self.branches[bname], f"{bnamemod}/{btype.upper()}")
+    def addbranch(self, branch_name, branch_type, branch_len=1, default=0):
+        self.branches[branch_name] = array(branch_type, branch_len * [default])
+        branch_name_mod = branch_name
+        if branch_len > 1:
+            branch_name_mod = f"{branch_name}[{branch_len}]"
+        self.tree.Branch(
+            branch_name,
+            self.branches[branch_name],
+            f"{branch_name_mod}/{branch_type.upper()}",
+        )
 
     def __init__(self, tag, topdir, detaillevel=99):
         self.topdir = topdir
@@ -300,7 +304,7 @@ class Hists:
 
     def fill(self, event, weight=0):
 
-        defaultfill = -999
+        default_fill = -999
 
         for i, k in self.collections.items():
             k.fill(event, weight)
@@ -393,9 +397,9 @@ class Hists:
             self.branches["tau1Eta"][0] = event.tau_tags[0].Eta
             self.branches["tau1Phi"][0] = event.tau_tags[0].Phi
         else:
-            self.branches["tau1PT"][0] = defaultfill
-            self.branches["tau1Eta"][0] = defaultfill
-            self.branches["tau1Phi"][0] = defaultfill
+            self.branches["tau1PT"][0] = default_fill
+            self.branches["tau1Eta"][0] = default_fill
+            self.branches["tau1Phi"][0] = default_fill
 
         # b-jets
         if len(event.btags) > 0:
@@ -403,17 +407,17 @@ class Hists:
             self.branches["bj1Eta"][0] = event.btags[0].P4().Eta()
             self.branches["bj1Phi"][0] = event.btags[0].P4().Phi()
         else:
-            self.branches["bj1PT"][0] = defaultfill
-            self.branches["bj1Eta"][0] = defaultfill
-            self.branches["bj1Phi"][0] = defaultfill
+            self.branches["bj1PT"][0] = default_fill
+            self.branches["bj1Eta"][0] = default_fill
+            self.branches["bj1Phi"][0] = default_fill
         if len(event.btags) > 1:
             self.branches["bj2PT"][0] = event.btags[1].P4().Pt()
             self.branches["bj2Eta"][0] = event.btags[1].P4().Eta()
             self.branches["bj2Phi"][0] = event.btags[1].P4().Phi()
         else:
-            self.branches["bj2PT"][0] = defaultfill
-            self.branches["bj2Eta"][0] = defaultfill
-            self.branches["bj2Phi"][0] = defaultfill
+            self.branches["bj2PT"][0] = default_fill
+            self.branches["bj2Eta"][0] = default_fill
+            self.branches["bj2Phi"][0] = default_fill
 
         # non-b/tau-jets
         if len(event.excl_jets) > 0:
@@ -421,17 +425,17 @@ class Hists:
             self.branches["j1Eta"][0] = event.excl_jets[0].P4().Eta()
             self.branches["j1Phi"][0] = event.excl_jets[0].P4().Phi()
         else:
-            self.branches["j1PT"][0] = defaultfill
-            self.branches["j1Eta"][0] = defaultfill
-            self.branches["j1Phi"][0] = defaultfill
+            self.branches["j1PT"][0] = default_fill
+            self.branches["j1Eta"][0] = default_fill
+            self.branches["j1Phi"][0] = default_fill
         if len(event.excl_jets) > 1:
             self.branches["j2PT"][0] = event.excl_jets[1].P4().Pt()
             self.branches["j2Eta"][0] = event.excl_jets[1].P4().Eta()
             self.branches["j2Phi"][0] = event.excl_jets[1].P4().Phi()
         else:
-            self.branches["j2PT"][0] = defaultfill
-            self.branches["j2Eta"][0] = defaultfill
-            self.branches["j2Phi"][0] = defaultfill
+            self.branches["j2PT"][0] = default_fill
+            self.branches["j2Eta"][0] = default_fill
+            self.branches["j2Phi"][0] = default_fill
 
         # Leptons
         if leading_lepton:
@@ -439,20 +443,24 @@ class Hists:
             self.branches["lep1Eta"][0] = leading_lepton.Eta()
             self.branches["lep1Phi"][0] = leading_lepton.Phi()
         else:
-            self.branches["lep1PT"][0] = defaultfill
-            self.branches["lep1Eta"][0] = defaultfill
-            self.branches["lep1Phi"][0] = defaultfill
+            self.branches["lep1PT"][0] = default_fill
+            self.branches["lep1Eta"][0] = default_fill
+            self.branches["lep1Phi"][0] = default_fill
 
         self.tree.Fill()
 
 
 class tthhTree:
-    def addbranch(self, bname, btype, blen=1, default=0):
-        self.branches[bname] = array(btype, blen * [default])
-        bnamemod = bname
-        if blen > 1:
-            bnamemod = "%s[%d]" % (bname, blen)
-        self.tree.Branch(bname, self.branches[bname], f"{bnamemod}/{btype.upper()}")
+    def addbranch(self, branch_name, branch_type, branch_len=1, default=0):
+        self.branches[branch_name] = array(branch_type, branch_len * [default])
+        branch_name_mod = branch_name
+        if branch_len > 1:
+            branch_name_mod = f"{branch_name}[{branch_len}]"
+        self.tree.Branch(
+            branch_name,
+            self.branches[branch_name],
+            f"{branch_name_mod}/{branch_type.upper()}",
+        )
 
     def __init__(self, tag, topdir, detaillevel=99):
         self.topdir = topdir
