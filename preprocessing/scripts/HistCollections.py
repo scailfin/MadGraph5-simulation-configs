@@ -57,7 +57,7 @@ class DelphesEvent:
 
 
 class Hists:
-    def addbranch(self, branch_name, branch_type, branch_len=1, default=0):
+    def add_branch(self, branch_name, branch_type, branch_len=1, default=0):
         self.branches[branch_name] = array(branch_type, branch_len * [default])
         branch_name_mod = branch_name
         if branch_len > 1:
@@ -247,42 +247,42 @@ class Hists:
 
         self.branches = {}
         self.tree = ROOT.TTree("hftree", "hftree")
-        self.addbranch("MET", "f")
-        self.addbranch("METPhi", "f")
-        self.addbranch("MET_invismu", "f")
-        self.addbranch("METPhi_invismu", "f")
+        self.add_branch("MET", "f")
+        self.add_branch("METPhi", "f")
+        self.add_branch("MET_invismu", "f")
+        self.add_branch("METPhi_invismu", "f")
 
-        self.addbranch("nElec", "i")
-        self.addbranch("nMuon", "i")
-        self.addbranch("nTau", "i")
-        self.addbranch("nbjet", "i")
-        self.addbranch("njet", "i")
-        self.addbranch("nLep", "i")
+        self.add_branch("nElec", "i")
+        self.add_branch("nMuon", "i")
+        self.add_branch("nTau", "i")
+        self.add_branch("nbjet", "i")
+        self.add_branch("njet", "i")
+        self.add_branch("nLep", "i")
 
-        self.addbranch("lep1PT", "f")
-        self.addbranch("lep1Eta", "f")
-        self.addbranch("lep1Phi", "f")
+        self.add_branch("lep1PT", "f")
+        self.add_branch("lep1Eta", "f")
+        self.add_branch("lep1Phi", "f")
 
-        self.addbranch("tau1PT", "f")
-        self.addbranch("tau1Eta", "f")
-        self.addbranch("tau1Phi", "f")
+        self.add_branch("tau1PT", "f")
+        self.add_branch("tau1Eta", "f")
+        self.add_branch("tau1Phi", "f")
 
-        self.addbranch("j1PT", "f")
-        self.addbranch("j1Eta", "f")
-        self.addbranch("j1Phi", "f")
-        self.addbranch("j2PT", "f")
-        self.addbranch("j2Eta", "f")
-        self.addbranch("j2Phi", "f")
-        self.addbranch("mjj", "f")
+        self.add_branch("j1PT", "f")
+        self.add_branch("j1Eta", "f")
+        self.add_branch("j1Phi", "f")
+        self.add_branch("j2PT", "f")
+        self.add_branch("j2Eta", "f")
+        self.add_branch("j2Phi", "f")
+        self.add_branch("mjj", "f")
 
-        self.addbranch("bj1PT", "f")
-        self.addbranch("bj1Eta", "f")
-        self.addbranch("bj1Phi", "f")
-        self.addbranch("bj2PT", "f")
-        self.addbranch("bj2Eta", "f")
-        self.addbranch("bj2Phi", "f")
+        self.add_branch("bj1PT", "f")
+        self.add_branch("bj1Eta", "f")
+        self.add_branch("bj1Phi", "f")
+        self.add_branch("bj2PT", "f")
+        self.add_branch("bj2Eta", "f")
+        self.add_branch("bj2Phi", "f")
 
-        self.addbranch("weight", "f")
+        self.add_branch("weight", "f")
 
     def write(
         self,
@@ -452,7 +452,7 @@ class Hists:
 
 
 class tthhTree:
-    def addbranch(self, branch_name, branch_type, branch_len=1, default=0):
+    def add_branch(self, branch_name, branch_type, branch_len=1, default=0):
         self.branches[branch_name] = array(branch_type, branch_len * [default])
         branch_name_mod = branch_name
         if branch_len > 1:
@@ -489,19 +489,19 @@ class tthhTree:
             "metphi",
             "weight",
         ):
-            self.addbranch(i, "f")
+            self.add_branch(i, "f")
 
         self.maxleptons = 4
         for j in range(1, self.maxleptons):
             for i in ("pT", "eta", "phi"):
-                self.addbranch("lepton%d%s" % (j, i), "f")
+                self.add_branch("lepton%d%s" % (j, i), "f")
             for i in ("mt", "dr"):
-                self.addbranch("%s%d" % (i, j), "f")
+                self.add_branch("%s%d" % (i, j), "f")
 
         self.maxjets = 12
         for j in range(1, self.maxjets):
             for i in ("pT", "eta", "phi", "b"):
-                self.addbranch("jet%d%s" % (j, i), "f")
+                self.add_branch("jet%d%s" % (j, i), "f")
 
     def write(
         self,
