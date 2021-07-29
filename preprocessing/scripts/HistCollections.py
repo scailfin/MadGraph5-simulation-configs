@@ -6,8 +6,8 @@ import ROOT
 class DelphesEvent:
     def __init__(self, event, highlumi=False):
         self.event = event
-        for e in event.Event:
-            self.weight = e.Weight
+        for _event in event.Event:
+            self.weight = _event.Weight
             break  # only one event
 
         # self.met=TLorentzVector()
@@ -17,15 +17,15 @@ class DelphesEvent:
 
         self.leptons = []
         self.elecs = []
-        for e in event.Electron:
-            if e.PT > 25 and abs(e.Eta) < 2.5:
-                self.elecs.append(e)
-                self.leptons.append(e)
+        for electron in event.Electron:
+            if electron.PT > 25 and abs(electron.Eta) < 2.5:
+                self.elecs.append(electron)
+                self.leptons.append(electron)
         self.muons = []
-        for m in event.Muon:
-            if m.PT > 25 and abs(m.Eta) < 2.5:
-                self.muons.append(m)
-                self.leptons.append(m)
+        for muon in event.Muon:
+            if muon.PT > 25 and abs(muon.Eta) < 2.5:
+                self.muons.append(muon)
+                self.leptons.append(muon)
 
         self.sortedleptons = sorted(self.leptons, key=lambda lep: lep.PT)
 
@@ -36,15 +36,15 @@ class DelphesEvent:
 
         self.btageta = 2.5 if not highlumi else 4.0
 
-        for j in event.Jet:
-            if j.TauTag:
-                self.tautags.append(j)
-            if j.BTag and abs(j.Eta) < self.btageta:
-                self.btags.append(j)
-            if j.PT > 25 and abs(j.Eta) < 4.5:
-                self.jets.append(j)
-                if not (j.TauTag or j.BTag):
-                    self.exclJets.append(j)
+        for jet in event.Jet:
+            if jet.TauTag:
+                self.tautags.append(jet)
+            if jet.BTag and abs(jet.Eta) < self.btageta:
+                self.btags.append(jet)
+            if jet.PT > 25 and abs(jet.Eta) < 4.5:
+                self.jets.append(jet)
+                if not (jet.TauTag or jet.BTag):
+                    self.exclJets.append(jet)
 
         self.sortedjets = sorted(self.jets, key=lambda jet: jet.PT)
 
