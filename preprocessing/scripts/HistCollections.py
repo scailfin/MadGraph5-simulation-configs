@@ -12,6 +12,7 @@ class DelphesEvent:
         # for _event in event.Event:
         #     self.weight = _event.Weight
         #     break  # only one event
+        # Only one event
         try:
             weight = event.Event[0].Weight
         except AttributeError:
@@ -19,9 +20,12 @@ class DelphesEvent:
         self.weight = weight
 
         # self.met=TLorentzVector()
-        for met in event.MissingET:
-            self.met = met.P4()
-            break  # only one MET
+        # Only one MET
+        try:
+            met = event.MissingET[0].P4()
+        except AttributeError:
+            met = None
+        self.met = met
 
         self.leptons = []
         self.elecs = []
