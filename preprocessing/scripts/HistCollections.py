@@ -2,6 +2,7 @@
 from array import array
 
 import ROOT
+from ROOT import TH1F
 
 
 class DelphesEvent:
@@ -82,22 +83,22 @@ class Hists:
         # Make all the histograms here (!)
 
         # Basics
-        self.hists["nElec"] = ROOT.TH1F(
+        self.hists["nElec"] = TH1F(
             "h_" + tag + "_nElec", tag + "_nElec;Number of Electrons;Events", 10, 0, 10
         )
-        self.hists["nMuon"] = ROOT.TH1F(
+        self.hists["nMuon"] = TH1F(
             "h_" + tag + "_nMuon", tag + "_nMuon;Number of Muons;Events", 10, 0, 10
         )
-        self.hists["nTau"] = ROOT.TH1F(
+        self.hists["nTau"] = TH1F(
             "h_" + tag + "_nTau", tag + "_nTau;Number of Taus;Events", 10, 0, 10
         )
-        self.hists["nbjet"] = ROOT.TH1F(
+        self.hists["nbjet"] = TH1F(
             "h_" + tag + "_nbjets", tag + "_nbjets;Number of b-jets;Events", 10, 0, 10
         )
-        self.hists["njet"] = ROOT.TH1F(
+        self.hists["njet"] = TH1F(
             "h_" + tag + "_njets", tag + "_njets;Number of jets;Events", 10, 0, 10
         )
-        self.hists["nLep"] = ROOT.TH1F(
+        self.hists["nLep"] = TH1F(
             "h_" + tag + "_nLep",
             tag + "_nLep;Number of Leptons (e/#mu);Events",
             10,
@@ -106,55 +107,55 @@ class Hists:
         )
 
         # B-jets
-        self.hists["bPT"] = ROOT.TH1F(
+        self.hists["bPT"] = TH1F(
             "h_" + tag + "_bPT", tag + "_bPT;p_{T,b-jets};Events/(10GeV)", 50, 0, 500
         )
-        self.hists["bPhi"] = ROOT.TH1F(
+        self.hists["bPhi"] = TH1F(
             "h_" + tag + "_bPhi", tag + "_bPhi;#phi(b-jets);Events/(0.4)", 20, -4, 4
         )
-        self.hists["bEta"] = ROOT.TH1F(
+        self.hists["bEta"] = TH1F(
             "h_" + tag + "_bEta", tag + "_bEta;#eta(b-jets);Events/(0.5)", 20, -5, 5
         )
 
         # Jets
-        self.hists["jPT"] = ROOT.TH1F(
+        self.hists["jPT"] = TH1F(
             "h_" + tag + "_jPT", tag + "_jPT;p_{T,jets};Events/(10GeV)", 50, 0, 500
         )
-        self.hists["jPhi"] = ROOT.TH1F(
+        self.hists["jPhi"] = TH1F(
             "h_" + tag + "_jPhi", tag + "_jPhi;#phi(jets);Events/(0.4)", 20, -4, 4
         )
-        self.hists["jEta"] = ROOT.TH1F(
+        self.hists["jEta"] = TH1F(
             "h_" + tag + "_jEta", tag + "_jEta;#eta(jets);Events/(0.5)", 20, -5, 5
         )
-        self.hists["mjj"] = ROOT.TH1F(
+        self.hists["mjj"] = TH1F(
             "h_" + tag + "_mjj", tag + "_mjj;m(jj);Events/(100 GeV)", 100, 0, 10000
         )
 
         # Electrons
-        self.hists["ePT"] = ROOT.TH1F(
+        self.hists["ePT"] = TH1F(
             "h_" + tag + "_ePT", tag + "_ePT;p^{e}_{T};Events/(10GeV)", 50, 0, 500
         )
-        self.hists["ePhi"] = ROOT.TH1F(
+        self.hists["ePhi"] = TH1F(
             "h_" + tag + "_ePhi", tag + "_ePhi;#phi(elecs);Events/(0.4)", 20, -4, 4
         )
-        self.hists["eEta"] = ROOT.TH1F(
+        self.hists["eEta"] = TH1F(
             "h_" + tag + "_eEta", tag + "_eEta;#eta(elecs);Events/(0.5)", 20, -5, 5
         )
-        self.hists["lePT"] = ROOT.TH1F(
+        self.hists["lePT"] = TH1F(
             "h_" + tag + "_lePT",
             tag + "_lePT;p^{lead-e}_{T};Events/(10GeV)",
             50,
             0,
             500,
         )
-        self.hists["lePhi"] = ROOT.TH1F(
+        self.hists["lePhi"] = TH1F(
             "h_" + tag + "_lePhi",
             tag + "_lePhi;#phi(leading-e);Events/(0.4)",
             20,
             -4,
             4,
         )
-        self.hists["leEta"] = ROOT.TH1F(
+        self.hists["leEta"] = TH1F(
             "h_" + tag + "_leEta",
             tag + "_leEta;#eta(leading-e);Events/(0.5)",
             20,
@@ -163,30 +164,30 @@ class Hists:
         )
 
         # Muons
-        self.hists["mPT"] = ROOT.TH1F(
+        self.hists["mPT"] = TH1F(
             "h_" + tag + "_mPT", tag + "_mPT;p^{#mu}_{T};Events/(10GeV)", 50, 0, 500
         )
-        self.hists["mPhi"] = ROOT.TH1F(
+        self.hists["mPhi"] = TH1F(
             "h_" + tag + "_mPhi", tag + "_mPhi;#phi(muons);Events/(0.4)", 20, -4, 4
         )
-        self.hists["mEta"] = ROOT.TH1F(
+        self.hists["mEta"] = TH1F(
             "h_" + tag + "_mEta", tag + "_mEta;#eta(muons);Events/(0.5)", 20, -5, 5
         )
-        self.hists["lmPT"] = ROOT.TH1F(
+        self.hists["lmPT"] = TH1F(
             "h_" + tag + "_lmPT",
             tag + "_lmPT;p^{lead-#mu}_{T};Events/(10GeV)",
             50,
             0,
             500,
         )
-        self.hists["lmPhi"] = ROOT.TH1F(
+        self.hists["lmPhi"] = TH1F(
             "h_" + tag + "_lmPhi",
             tag + "_lmPhi;#phi(leading-#mu);Events/(0.4)",
             20,
             -4,
             4,
         )
-        self.hists["lmEta"] = ROOT.TH1F(
+        self.hists["lmEta"] = TH1F(
             "h_" + tag + "_lmEta",
             tag + "_lmEta;#eta(leading-#mu);Events/(0.5)",
             20,
@@ -195,30 +196,30 @@ class Hists:
         )
 
         # Taus
-        self.hists["tPT"] = ROOT.TH1F(
+        self.hists["tPT"] = TH1F(
             "h_" + tag + "_tPT", tag + "_tPT;p^{#tau}_{T};Events/(10GeV)", 50, 0, 500
         )
-        self.hists["tPhi"] = ROOT.TH1F(
+        self.hists["tPhi"] = TH1F(
             "h_" + tag + "_tPhi", tag + "_tPhi;#phi(taus);Events/(0.4)", 20, -4, 4
         )
-        self.hists["tEta"] = ROOT.TH1F(
+        self.hists["tEta"] = TH1F(
             "h_" + tag + "_tEta", tag + "_tEta;#eta(taus);Events/(0.5)", 20, -5, 5
         )
-        self.hists["ltPT"] = ROOT.TH1F(
+        self.hists["ltPT"] = TH1F(
             "h_" + tag + "_ltPT",
             tag + "_ltPT;p^{lead-#tau}_{T};Events/(10GeV)",
             50,
             0,
             500,
         )
-        self.hists["ltPhi"] = ROOT.TH1F(
+        self.hists["ltPhi"] = TH1F(
             "h_" + tag + "_ltPhi",
             tag + "_ltPhi;#phi(leading-#tau);Events/(0.4)",
             20,
             -4,
             4,
         )
-        self.hists["ltEta"] = ROOT.TH1F(
+        self.hists["ltEta"] = TH1F(
             "h_" + tag + "_ltEta",
             tag + "_ltEta;#eta(leading-#tau);Events/(0.5)",
             20,
@@ -227,14 +228,14 @@ class Hists:
         )
 
         # MET
-        self.hists["MET"] = ROOT.TH1F(
+        self.hists["MET"] = TH1F(
             "h_" + tag + "_MET",
             tag + "_MET;E_{T}^{miss} [GeV];Events/(10 GeV)",
             100,
             0,
             1000,
         )
-        self.hists["MET_invismu"] = ROOT.TH1F(
+        self.hists["MET_invismu"] = TH1F(
             "h_" + tag + "_MET_invismu",
             tag + "_MET;E_{T}^{miss} [GeV];Events/(10 GeV)",
             100,
