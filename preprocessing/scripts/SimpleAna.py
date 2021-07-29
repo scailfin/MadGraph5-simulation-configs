@@ -66,7 +66,7 @@ if __name__ == "__main__":
     outfile = ROOT.TFile.Open(args.output, "RECREATE")
 
     # Book histograms
-    allev = Hists("allev", outfile)
+    all_events = Hists("all_events", outfile)
     presel = Hists("presel", outfile)
     SR = Hists("SR", outfile)
     # SR_jetbins=JetBins("SR_jetbins",outfile)
@@ -107,7 +107,7 @@ if __name__ == "__main__":
         weight = delphes_event.weight * weightscale
 
         # fill histograms for all events
-        allev.fill(delphes_event, weight)
+        all_events.fill(delphes_event, weight)
 
         # preselection: MET>120, >=2 jets
         if delphes_event.met.Pt() < 150 or len(delphes_event.jets) < 2:
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         SR.fill(delphes_event, weight)
         # SR_jetbins.fill(de,weight)
 
-    allev.write()
+    all_events.write()
     presel.write()
     SR.write()
     # SR_jetbins.write()
