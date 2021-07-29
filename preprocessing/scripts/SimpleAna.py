@@ -95,6 +95,7 @@ if __name__ == "__main__":
     # Loop through all events in chain
     print("Processing events")
     entry = 0
+
     for event in chain:
         entry += 1
 
@@ -109,6 +110,7 @@ if __name__ == "__main__":
         # fill histograms for all events
         all_events.fill(delphes_event, weight)
 
+        # TODO: This is all analysis specific stuff that needs to get ripped out
         # preselection: MET>120, >=2 jets
         if delphes_event.met.Pt() < 150 or len(delphes_event.jets) < 2:
             continue
