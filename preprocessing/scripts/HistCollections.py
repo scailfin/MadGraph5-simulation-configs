@@ -35,7 +35,7 @@ class DelphesEvent:
                 self.muons.append(muon)
                 self.leptons.append(muon)
 
-        self.sorted_leptons = sorted(self.leptons, key=lambda lep: lep.PT)
+        self.sorted_leptons = sorted(self.leptons, key=lambda lep: lep.PT, reverse=True)
 
         self.jets = []
         self.excl_jets = []
@@ -54,7 +54,7 @@ class DelphesEvent:
                 if not (jet.TauTag or jet.BTag):
                     self.excl_jets.append(jet)
 
-        self.sorted_jets = sorted(self.jets, key=lambda jet: jet.PT)
+        self.sorted_jets = sorted(self.jets, key=lambda jet: jet.PT, reverse=True)
 
 
 class Hists:
@@ -332,15 +332,12 @@ class Hists:
         self.branches["weight"][0] = weight
 
         # Do some characterizations
-        leptons_sorted_pt = sorted(
-            event.elecs + event.muons, key=lambda lep: lep.PT, reverse=True
-        )
-
+        # event.sorted_leptons are pT sorted in descending order
         leading_lepton = (
-            leptons_sorted_pt[0].P4() if len(leptons_sorted_pt) > 0 else None
+            event.sorted_leptons[0].P4() if len(event.sorted_leptons) > 0 else None
         )
         subleading_lepton = (
-            leptons_sorted_pt[1].P4() if len(leptons_sorted_pt) > 1 else None
+            event.sorted_leptons[1].P4() if len(event.sorted_leptons) > 1 else None
         )
 
         muons_momentum = ROOT.TLorentzVector()
