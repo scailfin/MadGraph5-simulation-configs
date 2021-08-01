@@ -342,15 +342,6 @@ class Hists:
         subleading_lepton = (
             leptons_sorted_pt[1].P4() if len(leptons_sorted_pt) > 1 else None
         )
-        # if len(event.elecs) > 0 and len(event.muons) == 0:
-        #     leading_lepton = event.elecs[0].P4()
-        # elif len(event.elecs) == 0 and len(event.muons) > 0:
-        #     leading_lepton = event.muons[0].P4()
-        # elif len(event.elecs) > 0 and len(event.muons) > 0:
-        #     if event.elecs[0].PT > event.muons[0].PT:
-        #         leading_lepton = event.elecs[0].P4()
-        #     else:
-        #         leading_lepton = event.muons[0].P4()
 
         muons_momentum = ROOT.TLorentzVector()
         muons_momentum.SetPtEtaPhiM(0, 0, 0, 0)
