@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-# Derivative work from https://gitlab.cern.ch/scipp/mario-mapyde
-# You can "safely" ignore the warnings about the missing dictionaries...
+# Code inspired by and based partially on https://gitlab.cern.ch/scipp/mario-mapyde
 
 import argparse
 import os
@@ -68,9 +67,7 @@ if __name__ == "__main__":
 
     # Book histograms
     all_events = Hists("all_events", outfile)
-    # presel = Hists("presel", outfile)
-    # SR = Hists("SR", outfile)
-    # SR_jetbins=JetBins("SR_jetbins",outfile)
+    event_selection = Hists("event_selection", outfile)
 
     event_cuts = {
         "e_pt_cut": 25,  # GeV
@@ -121,37 +118,14 @@ if __name__ == "__main__":
         # fill histograms for all events
         all_events.fill(delphes_event, weight)
 
-        # TODO: This is all analysis specific stuff that needs to get ripped out
-        # # preselection: MET>120, >=2 jets
-        # if delphes_event.met.Pt() < 150 or len(delphes_event.jets) < 2:
-        #     continue
-        # presel.fill(delphes_event, weight)
+        # Require two leptons in the event that pass event_cuts
+        if len(delphes_event.leptons) < 2:
+            continue
 
-        # # SR: zero e/mu/tau, deltaeta>3, mjj>1 TeV, nJets==2
-        # if len(delphes_event.tautags) != 0:
-        #     continue
-        # if len(delphes_event.elecs) != 0:
-        #     continue
-        # if len(delphes_event.muons) != 0:
-        #     continue
-        # if len(delphes_event.exclJets) < 2:
-        #     continue
-        # mjj = (delphes_event.exclJets[0].P4() + delphes_event.exclJets[1].P4()).M()
-        # if mjj < 1000:
-        #     continue
-        # deta = abs(
-        #     delphes_event.exclJets[0].P4().Eta() - delphes_event.exclJets[1].P4().Eta()
-        # )
-        # if deta < 3.0:
-        #     continue
-
-        # SR.fill(delphes_event, weight)
-        # SR_jetbins.fill(de,weight)
+        event_selection.fill(delphes_event, weight)
 
     all_events.write()
-    # presel.write()
-    # SR.write()
-    # SR_jetbins.write()
-    outfile.Close()
+    event_selection.write()
 
+    outfile.Close()
     print("Done!")
