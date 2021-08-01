@@ -6,7 +6,7 @@ from ROOT import TH1F
 
 
 class DelphesEvent:
-    def __init__(self, event, high_lumi=False):
+    def __init__(self, event, high_lumi=False, **kwargs):
         self.event = event
         # Only one event
         try:
@@ -14,6 +14,17 @@ class DelphesEvent:
         except AttributeError:
             weight = 0
         self.weight = weight
+
+        # reasonable values: 25 GeV, 2.5 eta
+        electron_pt_cut = kwargs.pop("e_pt_cut", 0.0)  # GeV
+        electron_eta_cut = kwargs.pop("e_eta_cut", 0.0)
+        muon_pt_cut = kwargs.pop("mu_pt_cut", electron_pt_cut)  # GeV
+        muon_eta_cut = kwargs.pop("mu_eta_cut", electron_eta_cut)
+        # reasonable values: 25 GeV, 4.5 eta
+        jet_pt_cut = kwargs.pop("jet_pt_cut", 0.0)  # GeV
+        jet_eta_cut = kwargs.pop("jet_eta_cut", 0.0)
+        # reasonable values: 4.0 eta
+        bjet_eta_cut = kwargs.pop("bjet_eta_cut", jet_eta_cut)
 
         # self.met=TLorentzVector()
         # Only one MET
@@ -26,12 +37,12 @@ class DelphesEvent:
         self.leptons = []
         self.elecs = []
         for electron in event.Electron:
-            if electron.PT > 25 and abs(electron.Eta) < 2.5:
+            if electron.PT > electron_pt_cut and abs(electron.Eta) < electron_eta_cut:
                 self.elecs.append(electron)
                 self.leptons.append(electron)
         self.muons = []
         for muon in event.Muon:
-            if muon.PT > 25 and abs(muon.Eta) < 2.5:
+            if muon.PT > muon_pt_cut and abs(muon.Eta) < muon_eta_cut:
                 self.muons.append(muon)
                 self.leptons.append(muon)
 
@@ -42,14 +53,14 @@ class DelphesEvent:
         self.tau_tags = []
         self.btags = []
 
-        self.btag_eta = 2.5 if not high_lumi else 4.0
+        self.btag_eta = bjet_eta_cut if not high_lumi else 4.0
 
         for jet in event.Jet:
             if jet.TauTag:
                 self.tau_tags.append(jet)
             if jet.BTag and abs(jet.Eta) < self.btag_eta:
                 self.btags.append(jet)
-            if jet.PT > 25 and abs(jet.Eta) < 4.5:
+            if jet.PT > jet_pt_cut and abs(jet.Eta) < jet_eta_cut:
                 self.jets.append(jet)
                 if not (jet.TauTag or jet.BTag):
                     self.excl_jets.append(jet)

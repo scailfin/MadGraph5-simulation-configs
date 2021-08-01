@@ -72,6 +72,16 @@ if __name__ == "__main__":
     # SR = Hists("SR", outfile)
     # SR_jetbins=JetBins("SR_jetbins",outfile)
 
+    event_cuts = {
+        "e_pt_cut": 25,  # GeV
+        "e_eta_cut": 2.5,
+        "mu_pt_cut": 25,  # GeV
+        "mu_eta_cut": 2.5,
+        "jet_pt_cut": 25,  # GeV
+        "jet_eta_cut": 4.5,
+        "bjet_eta_cut": 4.0,
+    }
+
     weightscale = float(args.lumi) / numFiles
     # Loop through all events in chain to get the sum of weights before filling trees and hists
     # There should be a better way to do this....
@@ -87,7 +97,7 @@ if __name__ == "__main__":
                 sys.stdout.flush()
 
             # wrapper around Delphes events to make some things easier
-            delphes_event = DelphesEvent(event)
+            delphes_event = DelphesEvent(event, **event_cuts)
             sumofweights += delphes_event.weight
 
         # compute appropriate weights for each event
@@ -105,7 +115,7 @@ if __name__ == "__main__":
             sys.stdout.flush()
 
         # wrapper around Delphes events to make some things easier
-        delphes_event = DelphesEvent(event)
+        delphes_event = DelphesEvent(event, **event_cuts)
         weight = delphes_event.weight * weightscale
 
         # fill histograms for all events
