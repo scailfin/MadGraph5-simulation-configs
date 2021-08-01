@@ -68,8 +68,8 @@ if __name__ == "__main__":
 
     # Book histograms
     all_events = Hists("all_events", outfile)
-    presel = Hists("presel", outfile)
-    SR = Hists("SR", outfile)
+    # presel = Hists("presel", outfile)
+    # SR = Hists("SR", outfile)
     # SR_jetbins=JetBins("SR_jetbins",outfile)
 
     weightscale = float(args.lumi) / numFiles
@@ -139,8 +139,8 @@ if __name__ == "__main__":
         # SR_jetbins.fill(de,weight)
 
     all_events.write()
-    presel.write()
-    SR.write()
+    # presel.write()
+    # SR.write()
     # SR_jetbins.write()
     outfile.Close()
 
