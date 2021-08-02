@@ -121,6 +121,8 @@ int main(int argc, char** argv) {
     // TTreeReaderValue<LorentzVectorM> lep_plus_p4M(myReader, "lep1_p4");
     // TTreeReaderValue<LorentzVectorM> lep_minus_p4M(myReader, "lep2_p4");
 
+    TTreeReaderValue<int> leading_lep_PID(myReader, "lep1_PID");
+
     TTreeReaderValue<float> lep_plus_Px(myReader, "lep1_Px");
     TTreeReaderValue<float> lep_plus_Py(myReader, "lep1_Py");
     TTreeReaderValue<float> lep_plus_Pz(myReader, "lep1_Pz");
@@ -130,9 +132,6 @@ int main(int argc, char** argv) {
     TTreeReaderValue<float> lep_minus_Py(myReader, "lep2_Py");
     TTreeReaderValue<float> lep_minus_Pz(myReader, "lep2_Pz");
     TTreeReaderValue<float> lep_minus_E(myReader, "lep2_E");
-
-    // // Add this to the branch
-    // TTreeReaderValue<int> leading_lep_PID(myReader, "lep1_PID");
 
     /*
      * Define output TTree, which will contain the weights we're computing (including uncertainty and computation time)
@@ -174,30 +173,25 @@ int main(int argc, char** argv) {
         normalizeInput(lep_plus.p4);
         normalizeInput(lep_minus.p4);
 
-        // // Ensure the leptons are given in the correct order w.r.t their charge
-        // if (*leading_lep_PID < 0)
-        //     swap(lep_plus, lep_minus);
+        // Ensure the leptons are given in the correct order w.r.t their charge
+        if (*leading_lep_PID < 0)
+            swap(lep_plus, lep_minus);
 
-        if (passes < 10) {
-            std::cout << "lep_plus_Px " << *lep_plus_Px << "\n";
-            std::cout << "lep_plus_Py " << *lep_plus_Py << "\n";
-            std::cout << "lep_plus_Pz " << *lep_plus_Pz << "\n";
-            std::cout << "lep_plus_E " << *lep_plus_E << "\n";
-            std::cout << "" << "\n";
+        auto start_time = system_clock::now();
+        // Compute the weights!
+        std::vector<std::pair<double, double>> weights = weight.computeWeights({lep_minus, lep_plus});
+        auto end_time = system_clock::now();
 
-            std::cout << "lep_minus_Px " << *lep_minus_Px << "\n";
-            std::cout << "lep_minus_Py " << *lep_minus_Py << "\n";
-            std::cout << "lep_minus_Pz " << *lep_minus_Pz << "\n";
-            std::cout << "lep_minus_E " << *lep_minus_E << "\n";
-            std::cout << "" << "\n";
+        // Retrieve the weight and uncertainty
+        weight_DY = weights.back().first;
+        weight_DY_err = weights.back().second;
+        weight_DY_time = std::chrono::duration_cast<milliseconds>(end_time - start_time).count();
 
-            std::cout << "lep_plus.p4 " << lep_plus.p4 << "\n";
-        }
+        LOG(debug) << "Event " << myReader.GetCurrentEntry() << " result: " << weight_DY << " +- " << weight_DY_err;
+        LOG(info) << "Weight computed in " << weight_DY_time << "ms";
 
-        ++passes;
+        out_tree->Fill();
     }
-
-    // ...
 
     // Save our output TTree
     out_tree->SaveAs("drell-yan_weights_test.root");
