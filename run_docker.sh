@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# image_name="neubauergroup/bluewaters-momemta"
-# image_tag="1.0.1"
 # image_name="neubauergroup/momemta-python-centos"
 # image_tag="latest"
 image_name="scailfin/delphes-python-centos"
