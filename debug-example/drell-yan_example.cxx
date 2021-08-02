@@ -84,8 +84,10 @@ int main(int argc, char** argv) {
     /*
      * Prepare MoMEMta to compute the weights
      */
-    // Set MoMEMta's logging level to `debug`
-    logging::set_level(logging::level::debug);
+    // // Set MoMEMta's logging level to `debug`
+    // logging::set_level(logging::level::debug);
+    // Set MoMEMta's logging level to `error`
+    logging::set_level(logging::level::error);
 
     // Construct the ConfigurationReader from the Lua file
     ConfigurationReader configuration("drell-yan_example.lua");
