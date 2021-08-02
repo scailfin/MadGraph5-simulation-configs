@@ -92,6 +92,7 @@ int main(int argc, char** argv) {
     // Instantiate MoMEMta using a **frozen** configuration
     MoMEMta weight(configuration.freeze());
 
+    int counter = 0;
     while (myReader.Next()) {
         /*
          * Prepare the LorentzVectors passed to MoMEMta:
@@ -128,6 +129,11 @@ int main(int argc, char** argv) {
         LOG(info) << "Weight computed in " << weight_DY_time << "ms";
 
         out_tree->Fill();
+
+        ++counter;
+        if (counter % 1000 == 0)
+            std::cout << "calculated weights for " << counter << " events\n";
+
     }
 
     // Save our output TTree
