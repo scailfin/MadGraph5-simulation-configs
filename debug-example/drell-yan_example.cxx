@@ -135,6 +135,7 @@ int main(int argc, char** argv) {
             std::cout << "calculated weights for " << counter << " events\n";
 
     }
+    std::cout << "calculated weights for " << counter << " events\n";
 
     // Save our output TTree
     out_tree->SaveAs("drell-yan_weights_test.root");
