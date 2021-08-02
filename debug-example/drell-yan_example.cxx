@@ -121,7 +121,18 @@ int main(int argc, char** argv) {
     // TTreeReaderValue<LorentzVectorM> lep_plus_p4M(myReader, "lep1_p4");
     // TTreeReaderValue<LorentzVectorM> lep_minus_p4M(myReader, "lep2_p4");
 
-    TTreeReaderValue<float> lep_plus_Pt(myReader, "lep1_Pt");
+    TTreeReaderValue<float> lep_plus_Px(myReader, "lep1_Px");
+    TTreeReaderValue<float> lep_plus_Py(myReader, "lep1_Py");
+    TTreeReaderValue<float> lep_plus_Pz(myReader, "lep1_Pz");
+    TTreeReaderValue<float> lep_plus_E(myReader, "lep1_E");
+
+    TTreeReaderValue<float> lep_minus_Px(myReader, "lep2_Px");
+    TTreeReaderValue<float> lep_minus_Py(myReader, "lep2_Py");
+    TTreeReaderValue<float> lep_minus_Pz(myReader, "lep2_Pz");
+    TTreeReaderValue<float> lep_minus_E(myReader, "lep2_E");
+
+    // // Add this to the branch
+    // TTreeReaderValue<int> leading_lep_PID(myReader, "lep1_PID");
 
     /*
      * Define output TTree, which will contain the weights we're computing (including uncertainty and computation time)
@@ -144,6 +155,7 @@ int main(int argc, char** argv) {
     // Instantiate MoMEMta using a **frozen** configuration
     MoMEMta weight(configuration.freeze());
 
+    int passes = 0;
     while (myReader.Next()) {
         /*
          * Prepare the LorentzVectors passed to MoMEMta:
@@ -155,8 +167,34 @@ int main(int argc, char** argv) {
          */
         // momemta::Particle lep_plus("lepton1",  LorentzVector { lep_plus_p4M->Px(), lep_plus_p4M->Py(), lep_plus_p4M->Pz(), lep_plus_p4M->E() });
         // momemta::Particle lep_minus("lepton2", LorentzVector { lep_minus_p4M->Px(), lep_minus_p4M->Py(), lep_minus_p4M->Pz(), lep_minus_p4M->E() });
+        momemta::Particle lep_plus("lepton1",  LorentzVector { *lep_plus_Px, *lep_plus_Py, *lep_plus_Pz, *lep_plus_E });
+        momemta::Particle lep_minus("lepton2", LorentzVector { *lep_minus_Px, *lep_minus_Py, *lep_minus_Pz, *lep_minus_E });
 
-        std::cout << "lep_plus_Pt " << lep_plus_Pt << "\n";
+        // Due to numerical instability, the mass can sometimes be negative. If it's the case, change the energy in order to be mass-positive
+        normalizeInput(lep_plus.p4);
+        normalizeInput(lep_minus.p4);
+
+        // // Ensure the leptons are given in the correct order w.r.t their charge
+        // if (*leading_lep_PID < 0)
+        //     swap(lep_plus, lep_minus);
+
+        if (passes < 10) {
+            std::cout << "lep_plus_Px " << *lep_plus_Px << "\n";
+            std::cout << "lep_plus_Py " << *lep_plus_Py << "\n";
+            std::cout << "lep_plus_Pz " << *lep_plus_Pz << "\n";
+            std::cout << "lep_plus_E " << *lep_plus_E << "\n";
+            std::cout << "" << "\n";
+
+            std::cout << "lep_minus_Px " << *lep_minus_Px << "\n";
+            std::cout << "lep_minus_Py " << *lep_minus_Py << "\n";
+            std::cout << "lep_minus_Pz " << *lep_minus_Pz << "\n";
+            std::cout << "lep_minus_E " << *lep_minus_E << "\n";
+            std::cout << "" << "\n";
+
+            std::cout << "lep_plus.p4 " << lep_plus.p4 << "\n";
+        }
+
+        ++passes;
     }
 
     // ...
