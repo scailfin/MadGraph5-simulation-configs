@@ -1,10 +1,9 @@
 #!/bin/bash
 
+# Run this inside of the directory for the hypothesis
+
 # Ensure lhadpdf set exists
 lhapdf get CT10nlo
-
-# Start inside debug-example
-# pushd debug-example
 
 if [[ -d MatrixElements ]];then
   rm -rf MatrixElements

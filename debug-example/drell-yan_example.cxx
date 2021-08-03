@@ -44,9 +44,7 @@ int main(int argc, char** argv) {
 
     using std::swap;
 
-    /*
-     * Load events from input file, retrieve reconstructed particles and MET
-     */
+    // Load events from input file, retrieve reconstructed particles and MET
     TChain chain("event_selection/hftree");
     // chain.Add("figure out how to make this a configurable path.root");
     // Path needs to be findable inside of Docker container
@@ -69,21 +67,16 @@ int main(int argc, char** argv) {
     TTreeReaderValue<float> lep_minus_Pz(myReader, "lep2_Pz");
     TTreeReaderValue<float> lep_minus_E(myReader, "lep2_E");
 
-    /*
-     * Define output TTree, which will contain the weights we're computing (including uncertainty and computation time)
-     */
+    // Define output TTree, which will contain the weights we're computing (including uncertainty and computation time)
     std::unique_ptr<TTree> out_tree = std::make_unique<TTree>("momemta", "momemta");
     double weight_DY, weight_DY_err, weight_DY_time;
     out_tree->Branch("weight_DY", &weight_DY);
     out_tree->Branch("weight_DY_err", &weight_DY_err);
     out_tree->Branch("weight_DY_time", &weight_DY_time);
 
-    /*
-     * Prepare MoMEMta to compute the weights
-     */
-    // // Set MoMEMta's logging level to `debug`
+    // Prepare MoMEMta to compute the weights
+
     // logging::set_level(logging::level::debug);
-    // Set MoMEMta's logging level to `error`
     logging::set_level(logging::level::error);
 
     // Construct the ConfigurationReader from the Lua file
