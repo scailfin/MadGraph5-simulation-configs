@@ -44,7 +44,10 @@ cmake --build build \
     --clean-first \
     --parallel $(($(nproc) - 1))
 
+INPUT_PATH="${1:-/home/feickert/workarea/MadGraph5-simulation-configs/preprocessing/preprocessing_output.root}"
+OUTPUT_PATH="${2:-drell-yan_weights.root}"
+
 # Current configuration in drell_yan.cxx requires running from top level of example dir
 time ./build/drell-yan_example \
-  --input "/home/feickert/workarea/MadGraph5-simulation-configs/preprocessing/preprocessing_output.root" \
-  --output "drell-yan_weights_test.root"
+  --input "${INPUT_PATH}" \
+  --output "${OUTPUT_PATH}"
