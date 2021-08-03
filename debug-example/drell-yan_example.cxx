@@ -15,8 +15,6 @@
 
 #include <iostream>  // for printing tchain for sanity check
 
-using namespace std::chrono;
-
 using LorentzVectorM = ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float>>;
 
 /*
@@ -108,15 +106,15 @@ int main(int argc, char** argv) {
         if (*leading_lep_PID < 0)
             swap(lep_plus, lep_minus);
 
-        auto start_time = system_clock::now();
+        auto start_time = std::chrono::system_clock::now();
         // Compute the weights!
         std::vector<std::pair<double, double>> weights = weight.computeWeights({lep_minus, lep_plus});
-        auto end_time = system_clock::now();
+        auto end_time = std::chrono::system_clock::now();
 
         // Retrieve the weight and uncertainty
         weight_DY = weights.back().first;
         weight_DY_err = weights.back().second;
-        weight_DY_time = std::chrono::duration_cast<milliseconds>(end_time - start_time).count();
+        weight_DY_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
 
         LOG(debug) << "Event " << myReader.GetCurrentEntry() << " result: " << weight_DY << " +- " << weight_DY_err;
         LOG(info) << "Weight computed in " << weight_DY_time << "ms";
