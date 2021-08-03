@@ -1,3 +1,4 @@
 #!/bin/bash
 
-qsub preprocessing.pbs
+PROCESS_DIRECTORY="${1:-drell-yan}"
+qsub "${PROCESS_DIRECTORY}/preprocessing.pbs"
