@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
     chain.Add("/home/feickert/workarea/MadGraph5-simulation-configs/preprocessing/preprocessing_output.root");
     TTreeReader myReader(&chain);
 
-    // Figure out how to serialize the 4-momentum
+    // TODO: serialize the 4-momentum into the TTree over just using branches
     // TTreeReaderValue<LorentzVectorM> lep_plus_p4M(myReader, "lep1_p4");
     // TTreeReaderValue<LorentzVectorM> lep_minus_p4M(myReader, "lep2_p4");
 
