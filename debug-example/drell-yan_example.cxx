@@ -12,8 +12,7 @@
 
 #include <chrono>
 #include <memory>
-
-#include <iostream>  // for printing tchain for sanity check
+#include <iostream>
 
 using LorentzVectorM = ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float>>;
 
@@ -37,16 +36,54 @@ void normalizeInput(LorentzVector& p4) {
 
 int main(int argc, char** argv) {
 
-    UNUSED(argc);
-    UNUSED(argv);
+    std::string inputPath;  // required input
+    std::string outputPath;  // required input
+    std::string configPath {"drell-yan_example.lua"};  // default value
+    std::string chainName {"event_selection/hftree"};  // default value
+    std::vector <std::string> unusedCLIArguments;
+
+    for (int idx = 1; idx < argc; ++idx) {
+        // --input
+        if (std::string(argv[idx]) == "--input") {
+            if (idx + 1 < argc) { // Make sure not at the end of argv
+                inputPath = argv[++idx]; // value is argv entry after flag
+            } else {
+                std::cerr << "--input option requires one argument." << std::endl;
+                return 1;
+            }
+        }
+        // --output
+        else if (std::string(argv[idx]) == "--output") {
+            if (idx + 1 < argc) {
+                outputPath = argv[++idx];
+            } else {
+                std::cerr << "--output option requires one argument." << std::endl;
+                return 1;
+            }
+        }
+        // --chain
+        else if (std::string(argv[idx]) == "--chain") {
+            if (idx + 1 < argc) {
+                chainName = argv[++idx];
+            }
+        }
+        // --luaconfig
+        else if (std::string(argv[idx]) == "--luaconfig") {
+            if (idx + 1 < argc) {
+                configPath = argv[++idx];
+            }
+        }
+        else {
+            unusedCLIArguments.push_back(argv[idx]);
+        }
+    }
 
     using std::swap;
 
     // Load events from input file, retrieve reconstructed particles and MET
-    TChain chain("event_selection/hftree");
-    // chain.Add("figure out how to make this a configurable path.root");
+    TChain chain(chainName.c_str());
     // Path needs to be findable inside of Docker container
-    chain.Add("/home/feickert/workarea/MadGraph5-simulation-configs/preprocessing/preprocessing_output.root");
+    chain.Add(inputPath.c_str());
     TTreeReader myReader(&chain);
 
     // TODO: serialize the 4-momentum into the TTree over just using branches
@@ -78,7 +115,7 @@ int main(int argc, char** argv) {
     logging::set_level(logging::level::error);
 
     // Construct the ConfigurationReader from the Lua file
-    ConfigurationReader configuration("drell-yan_example.lua");
+    ConfigurationReader configuration(configPath);
 
     // Instantiate MoMEMta using a **frozen** configuration
     MoMEMta weight(configuration.freeze());
@@ -128,8 +165,8 @@ int main(int argc, char** argv) {
     }
     std::cout << "calculated weights for " << counter << " events\n";
 
-    // Save our output TTree
-    out_tree->SaveAs("drell-yan_weights_test.root");
+    // Save output to TTree
+    out_tree->SaveAs(outputPath.c_str());
 
     return 0;
 }
