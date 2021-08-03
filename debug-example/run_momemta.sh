@@ -46,4 +46,4 @@ cmake --build build \
     --parallel $(($(nproc) - 1))
 
 # Current configuration in drell_yan.cxx requires running from top level of example dir
-time ./build/drell-yan_example.exe
+time ./build/drell-yan_example
