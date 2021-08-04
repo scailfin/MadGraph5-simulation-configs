@@ -272,6 +272,7 @@ class Hists:
         self.add_branch("nLep", "i")
 
         # self.add_branch("lep1_p4", "TLorentzVector")
+        self.add_branch("lep1_PID", "i")
         self.add_branch("lep1_Pt", "f")
         self.add_branch("lep1_Eta", "f")
         self.add_branch("lep1_Phi", "f")
@@ -284,6 +285,7 @@ class Hists:
         self.add_branch("lep1_E", "f")
 
         # self.add_branch("lep2_p4", "TLorentzVector")
+        self.add_branch("lep2_PID", "i")
         self.add_branch("lep2_Pt", "f")
         self.add_branch("lep2_Eta", "f")
         self.add_branch("lep2_Phi", "f")
@@ -345,10 +347,10 @@ class Hists:
         # Do some characterizations
         # event.sorted_leptons are pT sorted in descending order
         leading_lepton = (
-            event.sorted_leptons[0].P4() if len(event.sorted_leptons) > 0 else None
+            event.sorted_leptons[0] if len(event.sorted_leptons) > 0 else None
         )
         subleading_lepton = (
-            event.sorted_leptons[1].P4() if len(event.sorted_leptons) > 1 else None
+            event.sorted_leptons[1] if len(event.sorted_leptons) > 1 else None
         )
 
         muons_momentum = ROOT.TLorentzVector()
@@ -467,47 +469,57 @@ class Hists:
 
         # Leptons
         if leading_lepton:
+            leading_lepton_p4 = leading_lepton.P4()
             # self.branches["lep1_p4"][0] = leading_lepton
-            self.branches["lep1_Pt"][0] = leading_lepton.Pt()
-            self.branches["lep1_Eta"][0] = leading_lepton.Eta()
-            self.branches["lep1_Phi"][0] = leading_lepton.Phi()
-            self.branches["lep1_M"][0] = leading_lepton.M()
+            self.branches["lep1_PID"][0] = leading_lepton.Particle.GetObject().PID
+            self.branches["lep1_Pt"][0] = leading_lepton_p4.Pt()
+            self.branches["lep1_Eta"][0] = leading_lepton_p4.Eta()
+            self.branches["lep1_Phi"][0] = leading_lepton_p4.Phi()
+            self.branches["lep1_M"][0] = leading_lepton_p4.M()
             # Temporary hack to get 4-momentum components out
-            self.branches["lep1_Px"][0] = leading_lepton.Px()
-            self.branches["lep1_Py"][0] = leading_lepton.Py()
-            self.branches["lep1_Pz"][0] = leading_lepton.Pz()
-            self.branches["lep1_E"][0] = leading_lepton.E()
+            self.branches["lep1_Px"][0] = leading_lepton_p4.Px()
+            self.branches["lep1_Py"][0] = leading_lepton_p4.Py()
+            self.branches["lep1_Pz"][0] = leading_lepton_p4.Pz()
+            self.branches["lep1_E"][0] = leading_lepton_p4.E()
         else:
-            self.branches["lep1_Pt"][0] = default_fill
-            self.branches["lep1_Eta"][0] = default_fill
-            self.branches["lep1_Phi"][0] = default_fill
-            self.branches["lep1_M"][0] = default_fill
-            # Temporary hack to get 4-momentum components out
-            self.branches["lep1_Px"][0] = default_fill
-            self.branches["lep1_Py"][0] = default_fill
-            self.branches["lep1_Pz"][0] = default_fill
-            self.branches["lep1_E"][0] = default_fill
+            for branch_name in [
+                "lep1_PID",
+                "lep1_Pt",
+                "lep1_Eta",
+                "lep1_Phi",
+                "lep1_M",
+                "lep1_Px",
+                "lep1_Py",
+                "lep1_Pz",
+                "lep1_E",
+            ]:
+                self.branches[branch_name][0] = default_fill
 
         if subleading_lepton:
+            subleading_lepton_p4 = subleading_lepton.P4()
             # self.branches["lep1_p4"][0] = subleading_lepton
-            self.branches["lep2_Pt"][0] = subleading_lepton.Pt()
-            self.branches["lep2_Eta"][0] = subleading_lepton.Eta()
-            self.branches["lep2_Phi"][0] = subleading_lepton.Phi()
-            self.branches["lep2_M"][0] = subleading_lepton.M()
+            self.branches["lep2_PID"][0] = subleading_lepton.Particle.GetObject().PID
+            self.branches["lep2_Pt"][0] = subleading_lepton_p4.Pt()
+            self.branches["lep2_Eta"][0] = subleading_lepton_p4.Eta()
+            self.branches["lep2_Phi"][0] = subleading_lepton_p4.Phi()
+            self.branches["lep2_M"][0] = subleading_lepton_p4.M()
             # Temporary hack to get 4-momentum components out
-            self.branches["lep2_Px"][0] = subleading_lepton.Px()
-            self.branches["lep2_Py"][0] = subleading_lepton.Py()
-            self.branches["lep2_Pz"][0] = subleading_lepton.Pz()
-            self.branches["lep2_E"][0] = subleading_lepton.E()
+            self.branches["lep2_Px"][0] = subleading_lepton_p4.Px()
+            self.branches["lep2_Py"][0] = subleading_lepton_p4.Py()
+            self.branches["lep2_Pz"][0] = subleading_lepton_p4.Pz()
+            self.branches["lep2_E"][0] = subleading_lepton_p4.E()
         else:
-            self.branches["lep2_Pt"][0] = default_fill
-            self.branches["lep2_Eta"][0] = default_fill
-            self.branches["lep2_Phi"][0] = default_fill
-            self.branches["lep2_M"][0] = default_fill
-            # Temporary hack to get 4-momentum components out
-            self.branches["lep2_Px"][0] = default_fill
-            self.branches["lep2_Py"][0] = default_fill
-            self.branches["lep2_Pz"][0] = default_fill
-            self.branches["lep2_E"][0] = default_fill
+            for branch_name in [
+                "lep2_PID",
+                "lep2_Pt",
+                "lep2_Eta",
+                "lep2_Phi",
+                "lep2_M",
+                "lep2_Px",
+                "lep2_Py",
+                "lep2_Pz",
+                "lep2_E",
+            ]:
+                self.branches[branch_name][0] = default_fill
 
         self.tree.Fill()

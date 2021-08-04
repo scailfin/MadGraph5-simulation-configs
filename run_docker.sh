@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# image_name="neubauergroup/momemta-python-centos"
-# image_tag="latest"
-image_name="scailfin/delphes-python-centos"
-image_tag="3.5.0"
+image_name="neubauergroup/momemta-python-centos"
+image_tag="latest"
+# image_name="scailfin/delphes-python-centos"
+# image_tag="3.5.0"
 image="${image_name}:${image_tag}"
 
 docker pull "${image}"
