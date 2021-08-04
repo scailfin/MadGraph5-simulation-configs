@@ -11,7 +11,7 @@
 #PBS -l gres=shifter
 
 # Set the PBS_JOBNAME
-#PBS -N drell-yan-preprocessing
+#PBS -N drell-yan_preprocessing
 
 # Set the job stdout and stderr
 #PBS -e "${PBS_JOBNAME}.${PBS_JOBID}.err"
