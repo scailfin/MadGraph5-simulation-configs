@@ -11,7 +11,7 @@ fi
 mkdir MatrixElements
 pushd MatrixElements
 # Generate the matrix Element with MadGraph5
-mg5_aMC ../../configs/momemta/drell-yan.mg5
+mg5_aMC ../../../configs/momemta/drell-yan.mg5
 rm py.py
 popd
 
@@ -31,7 +31,7 @@ cmake --build MatrixElements/pp_drell_yan/build \
 if [ -d build ];then
   rm -rf build
 fi
-# Cleanup from failed runs
+# Cleanup if any failed runs
 if [ -f core ]; then
   rm core
 fi
