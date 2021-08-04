@@ -106,21 +106,3 @@ MatrixElement.drellyan = {
 
 -- Define quantity to be returned to MoMEMta
 integrand("drellyan::output")
-
--- inputs_before_perm = {
---     'tf_p1::output',
---     'tf_p2::output',
--- }
-
--- inputs = {
---   lepton1.gen_p4,
---   lepton2.gen_p4,
--- }
-
--- -- The main block defines the phase-space parametrisation,
--- -- converts our particles given by the transfer functions, and our propagator masses
--- -- into solutions for the missing particles in the event
--- BlockD.blockd = {
---     p3 = inputs[1],
---     p4 = inputs[2],
--- }
