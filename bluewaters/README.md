@@ -30,6 +30,12 @@ to generate LHE and HEPMC2 simulation files
 bash pbs_drell-yan_delphes.sh
 ```
 
+* To then run the preprocessing needed for MoMEMta to run, run
+
+```console
+bash run_preprocessing.sh drell-yan
+```
+
 ## Interactive Session
 
 If you need to run an interactive session (which will be slower) you can first allocate resources on the `shifter` queue from Torque with `qsub`
