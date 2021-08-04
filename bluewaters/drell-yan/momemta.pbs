@@ -51,5 +51,5 @@ aprun \
     --workdir=/root/data \
     -- /bin/bash -c 'export PATH="/usr/local/venv/bin:${PATH}" && \
         printf "\n# printenv:\n" && printenv && printf "\n\n" && \
-        cd /mnt/a/'"${HOME}"'/MadGraph5-simulation-configs/momemta/drell-yan && \
+        cd /mnt/a/'"${HOME}"'/MadGraph5-simulation-configs/momemta/'"${PHYSICS_PROCESS}"' && \
         bash run_momemta.sh '"${INPUT_PATH}"' '"${OUTPUT_FILE}"
