@@ -36,7 +36,7 @@ mkdir -p "${OUTPUT_PATH}"
 SHIFTER_IMAGE="neubauergroup/bluewaters-momemta:1.0.1"
 shifterimg pull "${SHIFTER_IMAGE}"
 
-INPUT_PATH="/mnt/c/scratch/sciteam/${USER}/${PHYSICS_PROCESS}/preprocessing/12497210.bw/preprocessing_output_10e4.root"
+INPUT_PATH="/mnt/c/scratch/sciteam/${USER}/${PHYSICS_PROCESS}/preprocessing/12498179.bw/preprocessing_output_10e4.root"
 OUTPUT_FILE="${OUTPUT_PATH}/momemta_weights.root"
 
 aprun \
