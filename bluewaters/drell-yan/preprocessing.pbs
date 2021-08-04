@@ -2,17 +2,16 @@
 
 # Set the number of processing elements (PEs) or cores
 # Set the number of PEs per node
-# xe is for normal nodes, xk is for GPU nodes
-#PBS -l nodes=1:ppn=16:xe
+#PBS -l nodes=1:ppn=8:xk
 
 # Set the wallclock time
-#PBS -l walltime=3:00:00
+#PBS -l walltime=24:00:00
 
 # Use shifter queue
 #PBS -l gres=shifter
 
-# Set the job name
-#PBS -N drell-yan_delphes
+# Set the PBS_JOBNAME
+#PBS -N preprocessing
 
 # Set the job stdout and stderr
 #PBS -e "${PBS_JOBNAME}.${PBS_JOBID}.err"
@@ -28,21 +27,17 @@
 # Ensure shifter enabled
 module load shifter
 
-OUTPUT_DIR="drell-yan_output"
-OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PBS_JOBNAME}/${PBS_JOBID}"
-OUTPUT_PATH="${OUTPUT_BASE_PATH}/${OUTPUT_DIR}"
-mkdir -p "${OUTPUT_BASE_PATH}"
-if [ -d "${OUTPUT_PATH}" ];then
-  echo " Run: rm -rf ${OUTPUT_PATH}"
-  exit 1
-fi
-
-INPUT_FILE_PATH="/mnt/c/scratch/sciteam/${USER}/drell-yan/nevents_10e4_run/drell-yan_output/Events/run_01/tag_1_pythia8_events.hepmc"
+PHYSICS_PROCESS="drell-yan"
+OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PHYSICS_PROCESS}/${PBS_JOBNAME}"
+OUTPUT_PATH="${OUTPUT_BASE_PATH}/${PBS_JOBID}"
+mkdir -p "${OUTPUT_PATH}"
 
 # $HOME is /u/sciteam/${USER}
 SHIFTER_IMAGE="scailfin/delphes-python-centos:3.5.0"
 shifterimg pull "${SHIFTER_IMAGE}"
 
+INPUT_PATH="/mnt/c/scratch/sciteam/${USER}/${PHYSICS_PROCESS}/delphes/nevents_10e4/delphes_output.root"
+OUTPUT_FILE="${OUTPUT_PATH}/preprocessing_output_10e4.root"
 # The need to edit the contents of LD_LIBRARY_PATH is to remove NVIDIA libraries
 # that place versions of libOpenGL in LD_LIBRARY_PATH that conflict with the
 # Delphes Docker image and give a symbol lookup error.
@@ -59,7 +54,7 @@ aprun \
     --volume=/mnt/a/"${HOME}":/mnt/a/"${HOME}" \
     --workdir=/root/data \
     -- /bin/bash -c 'export LD_LIBRARY_PATH=$(echo -e "${LD_LIBRARY_PATH//\:/\\n}" | grep -v /opt/cray/nvidia/390.46-1_1.0502.2481.1.1.gem/lib64 | tr "\n" ":") && \
-        DelphesHepMC2 \
-        /usr/local/venv/cards/delphes_card_ATLAS.tcl \
-        delphes_output.root \
-        '"${INPUT_FILE_PATH}"
+        export PATH="/usr/local/venv/bin:${PATH}" && \
+        printf "\n# printenv:\n" && printenv && printf "\n\n" && \
+        cd /mnt/a/'"${HOME}"'/MadGraph5-simulation-configs/preprocessing && \
+        bash run_preprocessing.sh '"${INPUT_PATH}"' '"${OUTPUT_FILE}"

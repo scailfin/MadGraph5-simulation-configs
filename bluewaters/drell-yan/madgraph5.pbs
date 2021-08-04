@@ -10,8 +10,8 @@
 # Use shifter queue
 #PBS -l gres=shifter
 
-# Set the job name
-#PBS -N drell-yan
+# Set the PBS_JOBNAME
+#PBS -N madgraph
 
 # Set the job stdout and stderr
 #PBS -e "${PBS_JOBNAME}.${PBS_JOBID}.err"
@@ -27,13 +27,10 @@
 # Ensure shifter enabled
 module load shifter
 
-OUTPUT_DIR="drell-yan_output"
-OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PBS_JOBNAME}/${PBS_JOBID}"
-OUTPUT_PATH="${OUTPUT_BASE_PATH}/${OUTPUT_DIR}"
-mkdir -p "${OUTPUT_BASE_PATH}"
-if [ -d "${OUTPUT_PATH}" ];then
-  rm -rf "${OUTPUT_PATH}"
-fi
+PHYSICS_PROCESS="drell-yan"
+OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PHYSICS_PROCESS}/${PBS_JOBNAME}"
+OUTPUT_PATH="${OUTPUT_BASE_PATH}/${PBS_JOBID}"
+mkdir -p "${OUTPUT_PATH}"
 
 # $HOME is /u/sciteam/${USER}
 SHIFTER_IMAGE="neubauergroup/bluewaters-mg5_amc:3.1.1"
@@ -48,4 +45,6 @@ aprun \
     --volume="${OUTPUT_BASE_PATH}":/root/data \
     --volume=/mnt/a/"${HOME}":/mnt/a/"${HOME}" \
     --workdir=/root/data \
-    -- /bin/bash -c 'mg5_aMC /mnt/a/'"${HOME}"'/MadGraph5-simulation-configs/configs/madgraph5/drell-yan.mg5'
+    -- /bin/bash -c 'export PATH="/usr/local/venv/bin:${PATH}" && \
+        printf "\n# printenv:\n" && printenv && printf "\n\n" && \
+        mg5_aMC /mnt/a/'"${HOME}"'/MadGraph5-simulation-configs/configs/madgraph5/drell-yan.mg5'
