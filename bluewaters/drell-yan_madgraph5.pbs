@@ -48,4 +48,6 @@ aprun \
     --volume="${OUTPUT_BASE_PATH}":/root/data \
     --volume=/mnt/a/"${HOME}":/mnt/a/"${HOME}" \
     --workdir=/root/data \
-    -- /bin/bash -c 'mg5_aMC /mnt/a/'"${HOME}"'/MadGraph5-simulation-configs/configs/madgraph5/drell-yan.mg5'
+    -- /bin/bash -c 'export PATH="/usr/local/venv/bin:${PATH}" && \
+        printf "printenv:\n" && printenv && printf "\n\n" && \
+        mg5_aMC /mnt/a/'"${HOME}"'/MadGraph5-simulation-configs/configs/madgraph5/drell-yan.mg5'
