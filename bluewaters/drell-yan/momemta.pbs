@@ -33,7 +33,7 @@ OUTPUT_PATH="${OUTPUT_BASE_PATH}/${PBS_JOBID}"
 mkdir -p "${OUTPUT_PATH}"
 
 # $HOME is /u/sciteam/${USER}
-SHIFTER_IMAGE="neubauergroup/momemta-python-centos:1.0.1"
+SHIFTER_IMAGE="neubauergroup/bluewaters-momemta:1.0.1"
 shifterimg pull "${SHIFTER_IMAGE}"
 
 INPUT_PATH="/mnt/c/scratch/sciteam/${USER}/${PHYSICS_PROCESS}/preprocessing/12497210.bw/preprocessing_output_10e4.root"
