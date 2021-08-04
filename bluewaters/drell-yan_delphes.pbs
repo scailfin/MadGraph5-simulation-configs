@@ -28,8 +28,9 @@
 # Ensure shifter enabled
 module load shifter
 
-OUTPUT_PATH="/mnt/c/scratch/sciteam/${USER}/${PBS_JOBNAME}/${PBS_JOBID}"
-mkdir -p "${OUTPUT_PATH}"
+OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PBS_JOBNAME}"
+mkdir -p "${OUTPUT_BASE_PATH}"
+OUTPUT_PATH="${OUTPUT_BASE_PATH}/${PBS_JOBID}"
 
 INPUT_FILE_PATH="/mnt/c/scratch/sciteam/${USER}/drell-yan/nevents_10e4_run/drell-yan_output/Events/run_01/tag_1_pythia8_events.hepmc"
 
@@ -49,7 +50,7 @@ aprun \
   -- shifter \
     --clearenv \
     --image="${SHIFTER_IMAGE}" \
-    --volume="${OUTPUT_PATH}":/root/data \
+    --volume="${OUTPUT_BASE_PATH}":/root/data \
     --volume=/mnt/a/"${HOME}":/mnt/a/"${HOME}" \
     --workdir=/root/data \
     -- /bin/bash -c 'export LD_LIBRARY_PATH=$(echo -e "${LD_LIBRARY_PATH//\:/\\n}" | grep -v /opt/cray/nvidia/390.46-1_1.0502.2481.1.1.gem/lib64 | tr "\n" ":") && \

@@ -27,8 +27,9 @@
 # Ensure shifter enabled
 module load shifter
 
-OUTPUT_PATH="/mnt/c/scratch/sciteam/${USER}/${PBS_JOBNAME}/${PBS_JOBID}"
-mkdir -p "${OUTPUT_PATH}"
+OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PBS_JOBNAME}"
+mkdir -p "${OUTPUT_BASE_PATH}"
+OUTPUT_PATH="${OUTPUT_BASE_PATH}/${PBS_JOBID}"
 
 # $HOME is /u/sciteam/${USER}
 SHIFTER_IMAGE="neubauergroup/bluewaters-mg5_amc:3.1.1"
@@ -40,7 +41,7 @@ aprun \
   -- shifter \
     --clearenv \
     --image="${SHIFTER_IMAGE}" \
-    --volume="${OUTPUT_PATH}":/root/data \
+    --volume="${OUTPUT_BASE_PATH}":/root/data \
     --volume=/mnt/a/"${HOME}":/mnt/a/"${HOME}" \
     --workdir=/root/data \
     -- /bin/bash -c 'export PATH="/usr/local/venv/bin:${PATH}" && \

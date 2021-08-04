@@ -27,8 +27,9 @@
 # Ensure shifter enabled
 module load shifter
 
-OUTPUT_PATH="/mnt/c/scratch/sciteam/${USER}/${PBS_JOBNAME}/${PBS_JOBID}"
-mkdir -p "${OUTPUT_PATH}"
+OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PBS_JOBNAME}"
+mkdir -p "${OUTPUT_BASE_PATH}"
+OUTPUT_PATH="${OUTPUT_BASE_PATH}/${PBS_JOBID}"
 
 # $HOME is /u/sciteam/${USER}
 SHIFTER_IMAGE="scailfin/delphes-python-centos:3.5.0"
