@@ -11,8 +11,8 @@
 # Use shifter queue
 #PBS -l gres=shifter
 
-# Set the job name
-#PBS -N drell-yan_delphes
+# Set the PBS_JOBNAME
+#PBS -N delphes
 
 # Set the job stdout and stderr
 #PBS -e "${PBS_JOBNAME}.${PBS_JOBID}.err"
@@ -28,9 +28,10 @@
 # Ensure shifter enabled
 module load shifter
 
-OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PBS_JOBNAME}"
-mkdir -p "${OUTPUT_BASE_PATH}"
+PHYSICS_PROCESS="drell-yan"
+OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PHYSICS_PROCESS}/${PBS_JOBNAME}"
 OUTPUT_PATH="${OUTPUT_BASE_PATH}/${PBS_JOBID}"
+mkdir -p "${OUTPUT_PATH}"
 
 INPUT_FILE_PATH="/mnt/c/scratch/sciteam/${USER}/drell-yan/nevents_10e4_run/drell-yan_output/Events/run_01/tag_1_pythia8_events.hepmc"
 
@@ -55,7 +56,7 @@ aprun \
     --workdir=/root/data \
     -- /bin/bash -c 'export LD_LIBRARY_PATH=$(echo -e "${LD_LIBRARY_PATH//\:/\\n}" | grep -v /opt/cray/nvidia/390.46-1_1.0502.2481.1.1.gem/lib64 | tr "\n" ":") && \
         export PATH="/usr/local/venv/bin:${PATH}" && \
-        printf "printenv:\n" && printenv && printf "\n\n" && \
+        printf "\n# printenv:\n" && printenv && printf "\n\n" && \
         DelphesHepMC2 \
         /usr/local/venv/cards/delphes_card_ATLAS.tcl \
         delphes_output.root \
