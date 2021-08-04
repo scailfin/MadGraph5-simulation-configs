@@ -27,7 +27,8 @@
 # Ensure shifter enabled
 module load shifter
 
-OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/drell-yan/${PBS_JOBNAME}"
+PHYSICS_PROCESS="drell-yan"
+OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PHYSICS_PROCESS}/${PBS_JOBNAME}"
 OUTPUT_PATH="${OUTPUT_BASE_PATH}/${PBS_JOBID}"
 mkdir -p "${OUTPUT_PATH}"
 
