@@ -27,14 +27,8 @@
 # Ensure shifter enabled
 module load shifter
 
-OUTPUT_DIR="drell-yan_output"
-OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PBS_JOBNAME}/${PBS_JOBID}"
-OUTPUT_PATH="${OUTPUT_BASE_PATH}/${OUTPUT_DIR}"
-mkdir -p "${OUTPUT_BASE_PATH}"
-if [ -d "${OUTPUT_PATH}" ];then
-  echo "ERROR: ${OUTPUT_PATH} exists"
-  exit 1
-fi
+OUTPUT_PATH="/mnt/c/scratch/sciteam/${USER}/${PBS_JOBNAME}/${PBS_JOBID}"
+mkdir -p "${OUTPUT_PATH}"
 
 # $HOME is /u/sciteam/${USER}
 SHIFTER_IMAGE="scailfin/delphes-python-centos:3.5.0"
