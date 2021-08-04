@@ -139,5 +139,8 @@ py.py
 drell-yan_output/
 MatrixElements/
 
+# ROOT
+*.root
+
 # Failure
 core
