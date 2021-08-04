@@ -36,7 +36,7 @@ mkdir -p "${OUTPUT_PATH}"
 SHIFTER_IMAGE="scailfin/delphes-python-centos:3.5.0"
 shifterimg pull "${SHIFTER_IMAGE}"
 
-INPUT_PATH="/mnt/c/scratch/sciteam/${USER}/drell-yan_delphes/nevents_10e4/delphes_output.root"
+INPUT_PATH="/mnt/c/scratch/sciteam/${USER}/${PHYSICS_PROCESS}/delphes/nevents_10e4/delphes_output.root"
 OUTPUT_FILE="${OUTPUT_PATH}/preprocessing_output_10e4.root"
 # The need to edit the contents of LD_LIBRARY_PATH is to remove NVIDIA libraries
 # that place versions of libOpenGL in LD_LIBRARY_PATH that conflict with the

@@ -33,7 +33,7 @@ OUTPUT_BASE_PATH="/mnt/c/scratch/sciteam/${USER}/${PHYSICS_PROCESS}/${PBS_JOBNAM
 OUTPUT_PATH="${OUTPUT_BASE_PATH}/${PBS_JOBID}"
 mkdir -p "${OUTPUT_PATH}"
 
-INPUT_FILE_PATH="/mnt/c/scratch/sciteam/${USER}/drell-yan/madgraph/nevents_10e4_run/Events/run_01/tag_1_pythia8_events.hepmc"
+INPUT_FILE_PATH="/mnt/c/scratch/sciteam/${USER}/${PHYSICS_PROCESS}/madgraph/nevents_10e4_run/Events/run_01/tag_1_pythia8_events.hepmc"
 
 # $HOME is /u/sciteam/${USER}
 SHIFTER_IMAGE="scailfin/delphes-python-centos:3.5.0"
