@@ -17,7 +17,7 @@ popd
 
 # Build Matrix Element
 # c.f. https://github.com/MoMEMta/MoMEMta-MaGMEE#usage
-# Matrix Element namespace name defined in ../../configs/momemta/drell-yan.mg5
+# Matrix Element namespace name defined in ../../../configs/momemta/drell-yan.mg5
 cmake \
     -DCMAKE_INSTALL_PREFIX=/usr/local/venv \
     -S MatrixElements/pp_drell_yan \
