@@ -36,6 +36,12 @@ bash run_delphes.sh drell-yan
 bash run_preprocessing.sh drell-yan
 ```
 
+* To then finally run MoMEMta for the hypothesis described with the [MoMEMta-MaGMEE](https://github.com/MoMEMta/MoMEMta-MaGMEE) MadGraph5 plugin run
+
+```console
+bash run_momemta.sh drell-yan
+```
+
 ## Interactive Session
 
 If you need to run an interactive session (which will be slower) you can first allocate resources on the `shifter` queue from Torque with `qsub`
