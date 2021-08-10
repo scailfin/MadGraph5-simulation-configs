@@ -105,7 +105,7 @@ class Hists:
             "h_" + tag + "_nTau", tag + "_nTau;Number of Taus;Events", 10, 0, 10
         )
         self.hists["nbjets"] = TH1F(
-            "h_" + tag + "_nbjetss", tag + "_nbjetss;Number of b-jets;Events", 10, 0, 10
+            "h_" + tag + "_nbjets", tag + "_nbjets;Number of b-jets;Events", 10, 0, 10
         )
         self.hists["njet"] = TH1F(
             "h_" + tag + "_njets", tag + "_njets;Number of jets;Events", 10, 0, 10
