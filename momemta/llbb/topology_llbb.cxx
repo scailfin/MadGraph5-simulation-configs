@@ -143,8 +143,8 @@ int main(int argc, char** argv) {
 
     // Prepare MoMEMta to compute the weights
 
-    // logging::set_level(logging::level::debug);
-    logging::set_level(logging::level::error);
+    logging::set_level(logging::level::debug);
+    // logging::set_level(logging::level::error);
 
     // Construct the ConfigurationReader from the Lua file
     ConfigurationReader configuration(configPath);
@@ -225,6 +225,8 @@ int main(int argc, char** argv) {
         LOG(info) << "Weight computed in " << weight_DY_time << "ms";
 
         out_tree->Fill();
+
+        if (counter > 5) break;
 
         ++counter;
         if (counter % fractionOfEvents == 0) {
