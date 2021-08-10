@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 
     std::string inputPath;  // required input
     std::string outputPath;  // required input
-    std::string configPath {"drell-yan_example.lua"};  // default value
+    std::string configPath {"drell-yan.lua"};  // default value
     std::string chainName {"event_selection/hftree"};  // default value
     int totalSteps {0};  // default value
     int stepNumber {0};  // default value
