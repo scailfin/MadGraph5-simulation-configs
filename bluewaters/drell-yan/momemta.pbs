@@ -54,7 +54,6 @@ aprun \
     --clearenv \
     --image="${SHIFTER_IMAGE}" \
     --volume="${OUTPUT_PATH}":/root/data \
-    --volume="${USER_SCRATCH}/${PHYSICS_PROCESS}":"${USER_SCRATCH}/${PHYSICS_PROCESS}" \
     --volume=/mnt/a/"${HOME}":/mnt/a/"${HOME}" \
     --workdir=/root/data \
     -- /bin/bash -c 'source scl_source enable devtoolset-8 && \
