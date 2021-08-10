@@ -27,7 +27,7 @@
 # Ensure shifter enabled
 module load shifter
 
-PHYSICS_PROCESS="drell-yan_llbb"
+PHYSICS_PROCESS="drell-yan"
 INPUT_JOBID="12509845.bw"
 CODE_BASE_PATH="/mnt/a/${HOME}/MadGraph5-simulation-configs"
 
@@ -41,8 +41,9 @@ SHIFTER_IMAGE="scailfin/delphes-python-centos:3.5.0"
 shifterimg pull "${SHIFTER_IMAGE}"
 
 # INPUT_PATH="/mnt/c/scratch/sciteam/${USER}/${PHYSICS_PROCESS}/delphes/nevents_10e4/delphes_output.root"
-INPUT_FILE="${USER_SCRATCH}/${PHYSICS_PROCESS}/delphes/${INPUT_JOBID}/delphes_output.root"
-OUTPUT_FILE="preprocessing_output.root"
+# INPUT_FILE="${USER_SCRATCH}/${PHYSICS_PROCESS}/delphes/${INPUT_JOBID}/delphes_output.root"
+INPUT_FILE="${USER_SCRATCH}/${PHYSICS_PROCESS}/delphes/nevents_10e6/delphes_output_nevents_10e6_run.root"
+OUTPUT_FILE="preprocessing_output_10e6.root"
 
 # The need to edit the contents of LD_LIBRARY_PATH is to remove NVIDIA libraries
 # that place versions of libOpenGL in LD_LIBRARY_PATH that conflict with the
