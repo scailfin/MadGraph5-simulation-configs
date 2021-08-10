@@ -66,6 +66,7 @@ class DelphesEvent:
                     self.excl_jets.append(jet)
 
         self.sorted_jets = sorted(self.jets, key=lambda jet: jet.PT, reverse=True)
+        self.sorted_bjets = sorted(self.btags, key=lambda jet: jet.PT, reverse=True)
 
 
 class Hists:
@@ -103,15 +104,15 @@ class Hists:
         self.hists["nTau"] = TH1F(
             "h_" + tag + "_nTau", tag + "_nTau;Number of Taus;Events", 10, 0, 10
         )
-        self.hists["nbjet"] = TH1F(
-            "h_" + tag + "_nbjets", tag + "_nbjets;Number of b-jets;Events", 10, 0, 10
+        self.hists["nbjets"] = TH1F(
+            "h_" + tag + "_nbjetss", tag + "_nbjetss;Number of b-jets;Events", 10, 0, 10
         )
         self.hists["njet"] = TH1F(
             "h_" + tag + "_njets", tag + "_njets;Number of jets;Events", 10, 0, 10
         )
-        self.hists["nLep"] = TH1F(
-            "h_" + tag + "_nLep",
-            tag + "_nLep;Number of Leptons (e/#mu);Events",
+        self.hists["nleptons"] = TH1F(
+            "h_" + tag + "_nleptons",
+            tag + "_nleptons;Number of Leptons (e/#mu);Events",
             10,
             0,
             10,
@@ -267,9 +268,9 @@ class Hists:
         self.add_branch("nElec", "i")
         self.add_branch("nMuon", "i")
         self.add_branch("nTau", "i")
-        self.add_branch("nbjet", "i")
+        self.add_branch("nbjets", "i")
         self.add_branch("njet", "i")
-        self.add_branch("nLep", "i")
+        self.add_branch("nleptons", "i")
 
         # self.add_branch("lep1_p4", "TLorentzVector")
         self.add_branch("lep1_PID", "i")
@@ -309,12 +310,23 @@ class Hists:
         self.add_branch("j2Phi", "f")
         self.add_branch("mjj", "f")
 
-        self.add_branch("bj1PT", "f")
-        self.add_branch("bj1Eta", "f")
-        self.add_branch("bj1Phi", "f")
-        self.add_branch("bj2PT", "f")
-        self.add_branch("bj2Eta", "f")
-        self.add_branch("bj2Phi", "f")
+        self.add_branch("bjet1_PT", "f")
+        self.add_branch("bjet1_Eta", "f")
+        self.add_branch("bjet1_Phi", "f")
+        # Temporary hack to get 4-momentum components out
+        self.add_branch("bjet1_Px", "f")
+        self.add_branch("bjet1_Py", "f")
+        self.add_branch("bjet1_Pz", "f")
+        self.add_branch("bjet1_E", "f")
+
+        self.add_branch("bjet2_PT", "f")
+        self.add_branch("bjet2_Eta", "f")
+        self.add_branch("bjet2_Phi", "f")
+        # Temporary hack to get 4-momentum components out
+        self.add_branch("bjet2_Px", "f")
+        self.add_branch("bjet2_Py", "f")
+        self.add_branch("bjet2_Pz", "f")
+        self.add_branch("bjet2_E", "f")
 
         self.add_branch("weight", "f")
 
@@ -353,6 +365,9 @@ class Hists:
             event.sorted_leptons[1] if len(event.sorted_leptons) > 1 else None
         )
 
+        leading_bjet = event.sorted_bjets[0] if len(event.sorted_bjets) > 0 else None
+        subleading_bjet = event.sorted_bjets[1] if len(event.sorted_bjets) > 1 else None
+
         muons_momentum = ROOT.TLorentzVector()
         muons_momentum.SetPtEtaPhiM(0, 0, 0, 0)
         for muon in event.muons:
@@ -362,9 +377,9 @@ class Hists:
         self.hists["nElec"].Fill(len(event.elecs), weight)
         self.hists["nMuon"].Fill(len(event.muons), weight)
         self.hists["nTau"].Fill(len(event.tau_tags), weight)
-        self.hists["nbjet"].Fill(len(event.btags), weight)
+        self.hists["nbjets"].Fill(len(event.btags), weight)
         self.hists["njet"].Fill(len(event.jets), weight)
-        self.hists["nLep"].Fill(len(event.elecs) + len(event.muons), weight)
+        self.hists["nleptons"].Fill(len(event.leptons), weight)
         self.hists["MET"].Fill(event.met.Pt(), weight)
         self.hists["MET_invismu"].Fill((event.met + muons_momentum).Pt(), weight)
 
@@ -375,9 +390,9 @@ class Hists:
         self.branches["nElec"][0] = len(event.elecs)
         self.branches["nMuon"][0] = len(event.muons)
         self.branches["nTau"][0] = len(event.tau_tags)
-        self.branches["nbjet"][0] = len(event.btags)
+        self.branches["nbjets"][0] = len(event.btags)
         self.branches["njet"][0] = len(event.jets)
-        self.branches["nLep"][0] = len(event.elecs) + len(event.muons)
+        self.branches["nleptons"][0] = len(event.leptons)
 
         # B-jets
         for aBJet in event.btags:
@@ -432,22 +447,49 @@ class Hists:
             self.branches["tau1Phi"][0] = default_fill
 
         # b-jets
-        if len(event.btags) > 0:
-            self.branches["bj1PT"][0] = event.btags[0].P4().Pt()
-            self.branches["bj1Eta"][0] = event.btags[0].P4().Eta()
-            self.branches["bj1Phi"][0] = event.btags[0].P4().Phi()
+        if leading_bjet:
+            leading_bjet_p4 = leading_bjet.P4()
+            self.branches["bjet1_PT"][0] = leading_bjet_p4.Pt()
+            self.branches["bjet1_Eta"][0] = leading_bjet_p4.Eta()
+            self.branches["bjet1_Phi"][0] = leading_bjet_p4.Phi()
+
+            self.branches["bjet1_Px"][0] = leading_bjet_p4.Px()
+            self.branches["bjet1_Px"][0] = leading_bjet_p4.Py()
+            self.branches["bjet1_Pz"][0] = leading_bjet_p4.Pz()
+            self.branches["bjet1_E"][0] = leading_bjet_p4.E()
         else:
-            self.branches["bj1PT"][0] = default_fill
-            self.branches["bj1Eta"][0] = default_fill
-            self.branches["bj1Phi"][0] = default_fill
-        if len(event.btags) > 1:
-            self.branches["bj2PT"][0] = event.btags[1].P4().Pt()
-            self.branches["bj2Eta"][0] = event.btags[1].P4().Eta()
-            self.branches["bj2Phi"][0] = event.btags[1].P4().Phi()
+            for branch_name in [
+                "bjet1_PT",
+                "bjet1_Eta",
+                "bjet1_Phi",
+                "bjet1_Px",
+                "bjet1_Py",
+                "bjet1_Pz",
+                "bjet1_E",
+            ]:
+                self.branches[branch_name][0] = default_fill
+
+        if subleading_bjet:
+            subleading_bjet_p4 = subleading_bjet.P4()
+            self.branches["bjet2_PT"][0] = subleading_bjet_p4.Pt()
+            self.branches["bjet2_Eta"][0] = subleading_bjet_p4.Eta()
+            self.branches["bjet2_Phi"][0] = subleading_bjet_p4.Phi()
+
+            self.branches["bjet2_Px"][0] = subleading_bjet_p4.Px()
+            self.branches["bjet2_Px"][0] = subleading_bjet_p4.Py()
+            self.branches["bjet2_Pz"][0] = subleading_bjet_p4.Pz()
+            self.branches["bjet2_E"][0] = subleading_bjet_p4.E()
         else:
-            self.branches["bj2PT"][0] = default_fill
-            self.branches["bj2Eta"][0] = default_fill
-            self.branches["bj2Phi"][0] = default_fill
+            for branch_name in [
+                "bjet2_PT",
+                "bjet2_Eta",
+                "bjet2_Phi",
+                "bjet2_Px",
+                "bjet2_Py",
+                "bjet2_Pz",
+                "bjet2_E",
+            ]:
+                self.branches[branch_name][0] = default_fill
 
         # non-b/tau-jets
         if len(event.excl_jets) > 0:
