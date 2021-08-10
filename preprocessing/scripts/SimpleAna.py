@@ -102,13 +102,17 @@ if __name__ == "__main__":
 
     # Loop through all events in chain
     print("Processing events")
+    total_nevents = chain.GetEntries()
+    fraction_of_events = int(total_nevents / 20)
     entry = 0
 
     for event in chain:
         entry += 1
 
-        if entry != 0 and entry % 10000 == 0:
-            print(f"{entry} events processed")
+        if entry % fraction_of_events == 0:
+            print(
+                f"{entry} events processed ({int(entry*100/total_nevents)}% of {total_nevents} events)"
+            )
             sys.stdout.flush()
 
         # wrapper around Delphes events to make some things easier
@@ -121,11 +125,10 @@ if __name__ == "__main__":
         # Require two leptons in the event that pass event_cuts
         if len(delphes_event.leptons) < 2:
             continue
-        if len(delphes_event.btags) < 2:
-            continue
 
         event_selection.fill(delphes_event, weight)
 
+    print(f"{entry} events processed")
     all_events.write()
     event_selection.write()
 
