@@ -44,7 +44,8 @@ cmake --build build \
     --clean-first \
     --parallel $(($(nproc) - 1))
 
-INPUT_PATH="${1:-/home/feickert/workarea/MadGraph5-simulation-configs/preprocessing/preprocessing_output.root}"
+# INPUT_PATH="${1:-/home/feickert/workarea/MadGraph5-simulation-configs/preprocessing/preprocessing_output.root}"
+INPUT_PATH="${1:-/home/feickert/Code/GitHub/SCAILFIN/MadGraph5-simulation-configs/preprocessing/preprocessing_output.root}"
 OUTPUT_PATH="${2:-momemta_weights.root}"
 NUMBER_OF_STEPS="${3:-0}"
 # N.B.: STEP_NUMBER is 0 indexed
