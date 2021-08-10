@@ -154,6 +154,8 @@ int main(int argc, char** argv) {
     // Instantiate MoMEMta using a **frozen** configuration
     MoMEMta weight(configuration.freeze());
 
+    std::cout << "\n\nPassed configuration freeze\n\n" << std::endl;
+
     // c.f. https://root.cern.ch/doc/v624/classTTreeReader.html#abe0530cfddbf50d5266d3d9ebb68972b
     int totalNEvents = treeReader.GetEntries(true);
     int fractionOfEvents = totalNEvents / 20;
