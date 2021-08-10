@@ -125,8 +125,8 @@ if __name__ == "__main__":
         # Require two leptons in the event that pass event_cuts
         if len(delphes_event.leptons) < 2:
             continue
-        if len(delphes_event.btags) < 2:
-            continue
+        # if len(delphes_event.btags) < 2:
+        #     continue
 
         event_selection.fill(delphes_event, weight)
 
