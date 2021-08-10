@@ -139,7 +139,8 @@ BuildInitialState.boost = {
 jacobians = {'phaseSpaceOut::phase_space'}
 
 if USE_TF then
-    append(jacobians, {'tf_neg_lepton::TF_times_jacobian', 'looper::jacobian', 'tf_pos_lepton::TF_times_jacobian', 'tfEval_bjet1::TF', 'tfEval_bjet2::TF'})
+    append(jacobians,
+    {'tf_neg_lepton::TF_times_jacobian', 'looper::jacobian', 'tf_pos_lepton::TF_times_jacobian', 'tfEval_bjet1::TF', 'tfEval_bjet2::TF'})
 end
 
 MatrixElement.drellyan = {
