@@ -132,6 +132,10 @@ int main(int argc, char** argv) {
     // Instantiate MoMEMta using a **frozen** configuration
     MoMEMta weight(configuration.freeze());
 
+    // c.f. https://root.cern.ch/doc/v624/classTTreeReader.html#abe0530cfddbf50d5266d3d9ebb68972b
+    int totalNEvents = myReader.GetEntries(true);
+    int fractionOfEvents = totalNEvents / 20;
+
     int counter = 0;
     while (myReader.Next()) {
         /*
@@ -177,8 +181,8 @@ int main(int argc, char** argv) {
         out_tree->Fill();
 
         ++counter;
-        if (counter % 1000 == 0)
-            std::cout << "calculated weights for " << counter << " events\n";
+        if (counter % fractionOfEvents == 0)
+            std::cout << "calculated weights for " << counter << " events (" << counter*100/totalNEvents << "% of " << totalNEvents << " events)\n";
 
     }
     std::cout << "calculated weights for " << counter << " events\n";
