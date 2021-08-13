@@ -5,7 +5,7 @@
 #PBS -l nodes=1:ppn=8:xk
 
 # Set the wallclock time
-#PBS -l walltime=48:00:00
+#PBS -l walltime=2:00:00
 
 # Use shifter queue
 #PBS -l gres=shifter
@@ -17,8 +17,8 @@
 #PBS -e "${PBS_JOBNAME}.${PBS_JOBID}.err"
 #PBS -o "${PBS_JOBNAME}.${PBS_JOBID}.out"
 
-# Set email notification on termination or abort
-#PBS -m ea
+# Set email notification on termination (e) or abort (a)
+#PBS -m a
 #PBS -M matthew.feickert@cern.ch
 
 # Set allocation to charge
@@ -29,7 +29,7 @@ module load shifter
 
 TOPOLOGY="llbb"
 PHYSICS_PROCESS="drell-yan_${TOPOLOGY}"
-INPUT_JOBID="12509866.bw"
+INPUT_JOBID="12513059.bw"
 CODE_BASE_PATH="/mnt/a/${HOME}/MadGraph5-simulation-configs"
 
 USER_SCRATCH="/mnt/c/scratch/sciteam/${USER}"
@@ -41,11 +41,20 @@ mkdir -p "${OUTPUT_PATH}"
 SHIFTER_IMAGE="neubauergroup/bluewaters-momemta:1.0.1"
 shifterimg pull "${SHIFTER_IMAGE}"
 
-# INPUT_PATH="${USER_SCRATCH}/${PHYSICS_PROCESS}/preprocessing/${INPUT_JOBID}/preprocessing_output_10e4.root"
 INPUT_PATH="${USER_SCRATCH}/${PHYSICS_PROCESS}/preprocessing/${INPUT_JOBID}/preprocessing/preprocessing_output.root"
 
 OUTPUT_FILE="${OUTPUT_PATH}/momemta_weights.root"
 
+# NUMBER_OF_STEPS passed through by qsub -v in run_momemta.sh
+if [ -z "${NUMBER_OF_STEPS}" ]; then
+  NUMBER_OF_STEPS=${1:-999}
+fi
+# STEP_NUMBER passed through by qsub -v in run_momemta.sh
+if [ -z "${STEP_NUMBER}" ]; then
+  STEP_NUMBER=${1:-999}
+fi
+
+# FIXME: There is a huge amount of copying being done in the container which is not great
 aprun \
   --bypass-app-transfer \
   --pes-per-node 1 \
@@ -59,5 +68,9 @@ aprun \
     -- /bin/bash -c 'source scl_source enable devtoolset-8 && \
         export PATH="/usr/local/venv/bin:${PATH}" && \
         printf "\n# printenv:\n" && printenv && printf "\n\n" && \
-        cd '"${CODE_BASE_PATH}"'/momemta/'"${TOPOLOGY}"' && \
-        bash run_momemta.sh '"${INPUT_PATH}"' '"${OUTPUT_FILE}"
+        mkdir -p momemta/'"${PHYSICS_PROCESS}"' && \
+        mkdir -p configs/momemta/ && \
+        cp -r '"${CODE_BASE_PATH}"'/momemta/'"${PHYSICS_PROCESS}"'/ momemta/ && \
+        cp -r '"${CODE_BASE_PATH}"'/configs/momemta/ configs/ && \
+        cd momemta/'"${PHYSICS_PROCESS}"' && \
+        bash run_momemta.sh '"${INPUT_PATH}"' '"${OUTPUT_FILE}"' '"${NUMBER_OF_STEPS}"' '"${STEP_NUMBER}"
