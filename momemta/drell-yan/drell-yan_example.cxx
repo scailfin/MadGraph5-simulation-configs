@@ -106,23 +106,23 @@ int main(int argc, char** argv) {
     TChain chain(chainName.c_str());
     // Path needs to be findable inside of Docker container
     chain.Add(inputPath.c_str());
-    TTreeReader myReader(&chain);
+    TTreeReader treeReader(&chain);
 
     // TODO: serialize the 4-momentum into the TTree over just using branches
-    // TTreeReaderValue<LorentzVectorM> lep_plus_p4M(myReader, "lep1_p4");
-    // TTreeReaderValue<LorentzVectorM> lep_minus_p4M(myReader, "lep2_p4");
+    // TTreeReaderValue<LorentzVectorM> lep_plus_p4M(treeReader, "lep1_p4");
+    // TTreeReaderValue<LorentzVectorM> lep_minus_p4M(treeReader, "lep2_p4");
 
-    TTreeReaderValue<int> leading_lep_PID(myReader, "lep1_PID");
+    TTreeReaderValue<int> leading_lep_PID(treeReader, "lep1_PID");
 
-    TTreeReaderValue<float> lep_plus_Px(myReader, "lep1_Px");
-    TTreeReaderValue<float> lep_plus_Py(myReader, "lep1_Py");
-    TTreeReaderValue<float> lep_plus_Pz(myReader, "lep1_Pz");
-    TTreeReaderValue<float> lep_plus_E(myReader, "lep1_E");
+    TTreeReaderValue<float> lep_plus_Px(treeReader, "lep1_Px");
+    TTreeReaderValue<float> lep_plus_Py(treeReader, "lep1_Py");
+    TTreeReaderValue<float> lep_plus_Pz(treeReader, "lep1_Pz");
+    TTreeReaderValue<float> lep_plus_E(treeReader, "lep1_E");
 
-    TTreeReaderValue<float> lep_minus_Px(myReader, "lep2_Px");
-    TTreeReaderValue<float> lep_minus_Py(myReader, "lep2_Py");
-    TTreeReaderValue<float> lep_minus_Pz(myReader, "lep2_Pz");
-    TTreeReaderValue<float> lep_minus_E(myReader, "lep2_E");
+    TTreeReaderValue<float> lep_minus_Px(treeReader, "lep2_Px");
+    TTreeReaderValue<float> lep_minus_Py(treeReader, "lep2_Py");
+    TTreeReaderValue<float> lep_minus_Pz(treeReader, "lep2_Pz");
+    TTreeReaderValue<float> lep_minus_E(treeReader, "lep2_E");
 
     // Define output TTree, which will contain the weights we're computing (including uncertainty and computation time)
     std::unique_ptr<TTree> out_tree = std::make_unique<TTree>("momemta", "momemta");
@@ -143,7 +143,7 @@ int main(int argc, char** argv) {
     MoMEMta weight(configuration.freeze());
 
     // c.f. https://root.cern.ch/doc/v624/classTTreeReader.html#abe0530cfddbf50d5266d3d9ebb68972b
-    int totalNEvents = myReader.GetEntries(true);
+    int totalNEvents = treeReader.GetEntries(true);
     int fractionOfEvents = totalNEvents / 20;
 
     int counter = 0;
@@ -166,12 +166,12 @@ int main(int argc, char** argv) {
 
         // This call is usually followed by an iteration of the range using TTreeReader::Next(),
         // which will visit the the entries from begiNEntry to endEntry - 1.
-        myReader.SetEntriesRange(steps.at(stepNumber), steps.at(stepNumber+1));
+        treeReader.SetEntriesRange(steps.at(stepNumber), steps.at(stepNumber+1));
 
         counter = steps.at(stepNumber);
     }
 
-    while (myReader.Next()) {
+    while (treeReader.Next()) {
         /*
          * Prepare the LorentzVectors passed to MoMEMta:
          * In the input file they are written in the PtEtaPhiM<float> basis,
@@ -203,7 +203,7 @@ int main(int argc, char** argv) {
         weight_DY_err = weights.back().second;
         weight_DY_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
 
-        LOG(debug) << "Event " << myReader.GetCurrentEntry() << " result: " << weight_DY << " +- " << weight_DY_err;
+        LOG(debug) << "Event " << treeReader.GetCurrentEntry() << " result: " << weight_DY << " +- " << weight_DY_err;
         LOG(info) << "Weight computed in " << weight_DY_time << "ms";
 
         out_tree->Fill();
