@@ -27,7 +27,7 @@
 # Ensure shifter enabled
 module load shifter
 
-TOPOLOGY="ll"
+TOPOLOGY="llbb"
 # PHYSICS_PROCESS="drell-yan_${TOPOLOGY}"
 PHYSICS_PROCESS="drell-yan"
 INPUT_JOBID="12513059.bw"
