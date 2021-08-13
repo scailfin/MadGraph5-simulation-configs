@@ -181,8 +181,10 @@ int main(int argc, char** argv) {
         out_tree->Fill();
 
         ++counter;
-        if (counter % fractionOfEvents == 0)
-            std::cout << "calculated weights for " << counter << " events (" << counter*100/totalNEvents << "% of " << totalNEvents << " events)\n";
+        if (counter % fractionOfEvents == 0) {
+            std::cout << "calculated weights for " << counter << " events (" << std::round(counter*100./totalNEvents)
+            << "% of " << totalNEvents << " events)\n";
+        }
 
     }
     std::cout << "calculated weights for " << counter << " events\n";
