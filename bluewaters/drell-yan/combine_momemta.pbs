@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Set the number of processing elements (PEs) or cores
+# Set the number of PEs per node
+#PBS -l nodes=1:ppn=8:xk
+
+# Set the wallclock time
+#PBS -l walltime=2:00:00
+
+# Use shifter queue
+#PBS -l gres=shifter
+
+# Set the PBS_JOBNAME
+#PBS -N momemta
+
+# Set the job stdout and stderr
+#PBS -e "${PBS_JOBNAME}.${PBS_JOBID}.err"
+#PBS -o "${PBS_JOBNAME}.${PBS_JOBID}.out"
+
+# Set email notification on termination (e) or abort (a)
+#PBS -m ea
+#PBS -M matthew.feickert@cern.ch
+
+# Set allocation to charge
+#PBS -A bbdz
+
+# Ensure shifter enabled
+module load shifter
+
+TOPOLOGY="llbb"
+PHYSICS_PROCESS="drell-yan_${TOPOLOGY}"
+
+USER_SCRATCH="/mnt/c/scratch/sciteam/${USER}"
+OUTPUT_BASE_PATH="${USER_SCRATCH}/${PHYSICS_PROCESS}/${PBS_JOBNAME}"
+OUTPUT_PATH="${OUTPUT_BASE_PATH}"
+mkdir -p "${OUTPUT_PATH}"
+
+# $HOME is /u/sciteam/${USER}
+SHIFTER_IMAGE="neubauergroup/bluewaters-momemta:1.0.1"
+shifterimg pull "${SHIFTER_IMAGE}"
+
+aprun \
+  --bypass-app-transfer \
+  --pes-per-node 1 \
+  --cpu-binding none \
+  -- shifter \
+    --clearenv \
+    --image="${SHIFTER_IMAGE}" \
+    --volume="${OUTPUT_PATH}":/root/data \
+    --volume=/mnt/a/"${HOME}":/mnt/a/"${HOME}" \
+    --workdir=/root/data \
+    -- /bin/bash -c 'source scl_source enable devtoolset-8 && \
+        export PATH="/usr/local/venv/bin:${PATH}" && \
+        printf "\n# printenv:\n" && printenv && printf "\n\n" && \
+        printf "\n# hadd all the ROOT files together:\n" && \
+        find . -name "momemta_weights.root" | sort | grep --invert-match "combined\|nevents" > sorted_file_list.txt && \
+        cat sorted_file_list.txt | xargs hadd -f -j $(($(nproc) - 1)) combined_momemta_weights.root && \
+        wc -l sorted_file_list.txt && \
+        rm sorted_file_list.txt'
