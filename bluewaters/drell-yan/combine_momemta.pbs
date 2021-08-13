@@ -39,8 +39,6 @@ mkdir -p "${OUTPUT_PATH}"
 SHIFTER_IMAGE="neubauergroup/bluewaters-momemta:1.0.1"
 shifterimg pull "${SHIFTER_IMAGE}"
 
-INPUT_PATH="${USER_SCRATCH}/${PHYSICS_PROCESS}/${PBS_JOBNAME}"
-
 aprun \
   --bypass-app-transfer \
   --pes-per-node 1 \
