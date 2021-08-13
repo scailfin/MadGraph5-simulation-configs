@@ -5,7 +5,7 @@
 #PBS -l nodes=1:ppn=8:xk
 
 # Set the wallclock time
-#PBS -l walltime=24:00:00
+#PBS -l walltime=6:00:00
 
 # Use shifter queue
 #PBS -l gres=shifter
@@ -17,24 +17,28 @@
 #PBS -e "${PBS_JOBNAME}.${PBS_JOBID}.err"
 #PBS -o "${PBS_JOBNAME}.${PBS_JOBID}.out"
 
-# Set email notification on termination or abort
-#PBS -m ea
+# Set email notification on termination (e) or abort (a)
+#PBS -m a
 #PBS -M matthew.feickert@cern.ch
 
 # Set allocation to charge
 #PBS -A bbdz
 
-# Ensure shifter enabled
-module load shifter
+# RANDOM_SEED passed through by qsub -v in run_madgraph.sh
+if [ -z "${RANDOM_SEED}" ]; then
+  RANDOM_SEED=${1:-999}
+fi
 
 PHYSICS_PROCESS="drell-yan_llbb"
 USER_SCRATCH="/mnt/c/scratch/sciteam/${USER}"
 OUTPUT_BASE_PATH="${USER_SCRATCH}/${PHYSICS_PROCESS}/${PBS_JOBNAME}"
-OUTPUT_PATH="${OUTPUT_BASE_PATH}/${PBS_JOBID}"
+OUTPUT_PATH="${OUTPUT_BASE_PATH}/${RANDOM_SEED}_${PBS_JOBID}"
 mkdir -p "${OUTPUT_PATH}"
 
 CODE_BASE_PATH="/mnt/a/${HOME}/MadGraph5-simulation-configs"
-RANDOM_SEED=300
+
+# Ensure shifter enabled
+module load shifter
 
 # $HOME is /u/sciteam/${USER}
 SHIFTER_IMAGE="neubauergroup/bluewaters-mg5_amc:3.1.1"
