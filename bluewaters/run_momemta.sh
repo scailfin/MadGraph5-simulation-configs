@@ -16,8 +16,6 @@ do
     # qsub -v: comma separated list of strings of the form variable or variable=value.
     qsub -v NUMBER_OF_STEPS="${NUMBER_OF_JOBS}",STEP_NUMBER="${n_job}" "${PROCESS_DIRECTORY}/momemta.pbs"
 done
-qsub -v NUMBER_OF_STEPS=500,STEP_NUMBER=1 "${PROCESS_DIRECTORY}/momemta.pbs"
-qsub -v NUMBER_OF_STEPS=500,STEP_NUMBER=2 "${PROCESS_DIRECTORY}/momemta.pbs"
 echo ""
 echo "# Submitted ${NUMBER_OF_JOBS} jobs"
 echo ""
