@@ -9,7 +9,6 @@ fi
 PROCESS_DIRECTORY="${1:-drell-yan}"
 
 NUMBER_OF_JOBS=200
-# Submit jobs
 echo "# Submitting ${NUMBER_OF_JOBS} jobs"
 echo ""
 for n_job in $(seq 0 $((${NUMBER_OF_JOBS}-1)))
