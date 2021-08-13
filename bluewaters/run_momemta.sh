@@ -11,11 +11,11 @@ PROCESS_DIRECTORY="${1:-drell-yan}"
 NUMBER_OF_JOBS=200
 echo "# Submitting ${NUMBER_OF_JOBS} jobs"
 echo ""
-# for n_job in $(seq 0 $((${NUMBER_OF_JOBS}-1)))
-# do
-#     # qsub -v: comma separated list of strings of the form variable or variable=value.
-#     qsub -v NUMBER_OF_STEPS="${NUMBER_OF_JOBS}",STEP_NUMBER="${n_job}" "${PROCESS_DIRECTORY}/momemta.pbs"
-# done
+for n_job in $(seq 0 $((${NUMBER_OF_JOBS}-1)))
+do
+    # qsub -v: comma separated list of strings of the form variable or variable=value.
+    qsub -v NUMBER_OF_STEPS="${NUMBER_OF_JOBS}",STEP_NUMBER="${n_job}" "${PROCESS_DIRECTORY}/momemta.pbs"
+done
 qsub -v NUMBER_OF_STEPS=500,STEP_NUMBER=1 "${PROCESS_DIRECTORY}/momemta.pbs"
 qsub -v NUMBER_OF_STEPS=500,STEP_NUMBER=2 "${PROCESS_DIRECTORY}/momemta.pbs"
 echo ""
