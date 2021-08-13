@@ -54,6 +54,7 @@ aprun \
         export PATH="/usr/local/venv/bin:${PATH}" && \
         printf "\n# printenv:\n" && printenv && printf "\n\n" && \
         printf "\n# hadd all the ROOT files together:\n" && \
+        printf "\n# hadd --help:\n" && hadd --help && printf "\n\n" && \
         find . -name "momemta_weights.root" | sort | grep --invert-match "combined\|nevents" > sorted_file_list.txt && \
         cat sorted_file_list.txt | xargs hadd -f -j $(($(nproc) - 1)) combined_momemta_weights.root && \
         wc -l sorted_file_list.txt && \
