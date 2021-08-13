@@ -28,8 +28,7 @@
 module load shifter
 
 TOPOLOGY="llbb"
-# PHYSICS_PROCESS="drell-yan_${TOPOLOGY}"
-PHYSICS_PROCESS="drell-yan"
+PHYSICS_PROCESS="drell-yan_${TOPOLOGY}"
 INPUT_JOBID="12513059.bw"
 CODE_BASE_PATH="/mnt/a/${HOME}/MadGraph5-simulation-configs"
 
