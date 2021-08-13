@@ -7,5 +7,28 @@ if [ "${BASH_VERSION:0:1}" -lt 4 ]; then
 fi
 
 PROCESS_DIRECTORY="${1:-drell-yan}"
-RANDOM_SEED=300
-qsub "${PROCESS_DIRECTORY}/madgraph5.pbs"
+TOTAL_NEVENTS=1000000
+# This should be taken from the JSON config
+EVENTS_PER_JOB=10000
+
+# build seed array
+n_jobs=$(("${TOTAL_NEVENTS}" / "${EVENTS_PER_JOB}"))
+random_seeds=()
+for n_step in $(seq 0 $((${n_jobs}-1)))
+do
+    random_seeds+=($(("${EVENTS_PER_JOB}" * (1+"${n_step}") )))
+done
+
+# Submit jobs
+echo "# Submitting ${n_jobs} jobs"
+echo ""
+for random_seed in "${random_seeds[@]}"
+do
+    # qsub -v: comma separated list of strings of the form variable or variable=value.
+    qsub -v RANDOM_SEED="${random_seed}" "${PROCESS_DIRECTORY}/madgraph5.pbs"
+done
+echo ""
+echo "# Submitted ${n_jobs} jobs"
+echo ""
+echo '# Check status with: qstat -u $USER'
+qstat -u "${USER}"
