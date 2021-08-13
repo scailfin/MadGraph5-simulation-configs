@@ -1,0 +1,16 @@
+{
+  "type": "madgraph5",
+  "process": "p p > l+ l-",
+  "output": "drell-yan_ll",
+  "options": {
+    "madevent": {
+      "run_mode": 2
+    },
+    "run": {
+      "shower": "Pythia8",
+      "nevents": 10000,
+      "iseed": 0
+    }
+  },
+  "version": "0.1.0"
+}
