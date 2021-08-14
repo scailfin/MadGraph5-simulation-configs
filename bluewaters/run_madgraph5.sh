@@ -19,7 +19,6 @@ do
     random_seeds+=($(("${EVENTS_PER_JOB}" * (1+"${n_step}") )))
 done
 
-# Submit jobs
 echo "# Submitting ${n_jobs} jobs"
 echo ""
 for random_seed in "${random_seeds[@]}"
