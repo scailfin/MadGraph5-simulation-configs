@@ -7,7 +7,6 @@ if [ "${BASH_VERSION:0:1}" -lt 4 ]; then
 fi
 
 PROCESS_DIRECTORY="${1:-drell-yan_ll}"
-# qsub "${PROCESS_DIRECTORY}/preprocessing.pbs"
 
 TOPOLOGY="ll"
 PHYSICS_PROCESS="drell-yan_${TOPOLOGY}"
