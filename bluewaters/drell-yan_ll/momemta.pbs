@@ -64,13 +64,19 @@ aprun \
     --image="${SHIFTER_IMAGE}" \
     --volume="${OUTPUT_PATH}":/root/data \
     --volume=/mnt/a/"${HOME}":/mnt/a/"${HOME}" \
+    --env PHYSICS_PROCESS="${PHYSICS_PROCESS}" \
+    --env CODE_BASE_PATH="${CODE_BASE_PATH}" \
+    --env INPUT_PATH="${INPUT_PATH}" \
+    --env OUTPUT_FILE="${OUTPUT_FILE}" \
+    --env NUMBER_OF_STEPS="${NUMBER_OF_STEPS}" \
+    --env STEP_NUMBER="${STEP_NUMBER}" \
     --workdir=/root/data \
     -- /bin/bash -c 'source scl_source enable devtoolset-8 && \
         export PATH="/usr/local/venv/bin:${PATH}" && \
         printf "\n# printenv:\n" && printenv && printf "\n\n" && \
-        mkdir -p momemta/'"${PHYSICS_PROCESS}"' && \
+        mkdir -p momemta/"${PHYSICS_PROCESS}" && \
         mkdir -p configs/momemta/ && \
-        cp -r '"${CODE_BASE_PATH}"'/momemta/'"${PHYSICS_PROCESS}"'/ momemta/ && \
-        cp -r '"${CODE_BASE_PATH}"'/configs/momemta/ configs/ && \
-        cd momemta/'"${PHYSICS_PROCESS}"' && \
-        bash run_momemta.sh '"${INPUT_PATH}"' '"${OUTPUT_FILE}"' '"${NUMBER_OF_STEPS}"' '"${STEP_NUMBER}"
+        cp -r "${CODE_BASE_PATH}/momemta/${PHYSICS_PROCESS}"/ momemta/ && \
+        cp -r "${CODE_BASE_PATH}"/configs/momemta/ configs/ && \
+        cd momemta/"${PHYSICS_PROCESS}" && \
+        bash run_momemta.sh "${INPUT_PATH}" "${OUTPUT_FILE}" "${NUMBER_OF_STEPS}" "${STEP_NUMBER}"'
