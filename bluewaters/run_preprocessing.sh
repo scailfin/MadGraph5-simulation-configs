@@ -6,8 +6,6 @@ if [ "${BASH_VERSION:0:1}" -lt 4 ]; then
     exit 1
 fi
 
-PROCESS_DIRECTORY="${1:-drell-yan_ll}"
-
 TOPOLOGY="ll"
 PHYSICS_PROCESS="drell-yan_${TOPOLOGY}"
 PROCESS_DIRECTORY="${1:-${PHYSICS_PROCESS}}"
