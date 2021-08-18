@@ -6,7 +6,7 @@ if [ "${BASH_VERSION:0:1}" -lt 4 ]; then
     exit 1
 fi
 
-PROCESS_DIRECTORY="${1:-drell-yan}"
+PROCESS_DIRECTORY="${1:-drell-yan_ll}"
 TOTAL_NEVENTS=1000000
 # This should be taken from the JSON config
 EVENTS_PER_JOB=10000
@@ -19,7 +19,6 @@ do
     random_seeds+=($(("${EVENTS_PER_JOB}" * (1+"${n_step}") )))
 done
 
-# Submit jobs
 echo "# Submitting ${n_jobs} jobs"
 echo ""
 for random_seed in "${random_seeds[@]}"
