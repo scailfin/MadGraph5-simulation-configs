@@ -51,7 +51,7 @@ NUMBER_OF_STEPS="${3:-0}"
 STEP_NUMBER="${4:-0}"
 
 # Current configuration in drell_yan.cxx requires running from top level of example dir
-time ./build/drell-yan_example \
+./build/drell-yan_example \
   --input "${INPUT_PATH}" \
   --output "${OUTPUT_PATH}" \
   --nsteps "${NUMBER_OF_STEPS}" \
