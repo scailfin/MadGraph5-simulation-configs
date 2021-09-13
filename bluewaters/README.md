@@ -15,7 +15,7 @@ qstat -u $USER
 
 ### Example: Drell-Yan
 
-* Ensure there is a MadGraph5 steering script at `configs/madgraph5/drell-yan_ll.mg5`
+* Ensure there is a MadGraph5 steering script config at `configs/json/drell-yan_ll.json`
 * One would then submit the Drell-Yan job with
 
 ```console
