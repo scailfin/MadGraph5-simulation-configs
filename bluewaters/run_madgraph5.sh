@@ -9,7 +9,7 @@ fi
 PROCESS_DIRECTORY="${1:-drell-yan_ll}"
 TOTAL_NEVENTS=1000000
 # This should be taken from the JSON config
-EVENTS_PER_JOB=10000
+EVENTS_PER_JOB=5000
 
 # build seed array
 n_jobs=$(("${TOTAL_NEVENTS}" / "${EVENTS_PER_JOB}"))
