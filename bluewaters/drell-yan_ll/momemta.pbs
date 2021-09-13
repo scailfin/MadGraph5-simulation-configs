@@ -24,13 +24,14 @@
 # Set allocation to charge
 #PBS -A bbdz
 
+# Ensure modern bash
+module load bash
 # Ensure shifter enabled
 module load shifter
 
-TOPOLOGY="llbb"
+TOPOLOGY="ll"
 PHYSICS_PROCESS="drell-yan_${TOPOLOGY}"
-INPUT_JOBID="12513059.bw"
-CODE_BASE_PATH="/mnt/a/${HOME}/MadGraph5-simulation-configs"
+CODE_BASE_PATH="/mnt/a/u/sciteam/${USER}/MadGraph5-simulation-configs"
 
 USER_SCRATCH="/mnt/c/scratch/sciteam/${USER}"
 OUTPUT_BASE_PATH="${USER_SCRATCH}/${PHYSICS_PROCESS}/${PBS_JOBNAME}"
@@ -41,7 +42,7 @@ mkdir -p "${OUTPUT_PATH}"
 SHIFTER_IMAGE="neubauergroup/bluewaters-momemta:1.0.1"
 shifterimg pull "${SHIFTER_IMAGE}"
 
-INPUT_PATH="${USER_SCRATCH}/${PHYSICS_PROCESS}/preprocessing/${INPUT_JOBID}/preprocessing/preprocessing_output.root"
+INPUT_PATH="${USER_SCRATCH}/${PHYSICS_PROCESS}/preprocessing/combined_preprocessing_output.root"
 
 OUTPUT_FILE="${OUTPUT_PATH}/momemta_weights.root"
 
@@ -79,4 +80,4 @@ aprun \
         cp -r "${CODE_BASE_PATH}/momemta/${PHYSICS_PROCESS}"/ momemta/ && \
         cp -r "${CODE_BASE_PATH}"/configs/momemta/ configs/ && \
         cd momemta/"${PHYSICS_PROCESS}" && \
-        bash run_momemta.sh "${INPUT_PATH}" "${OUTPUT_FILE}" "${NUMBER_OF_STEPS}" "${STEP_NUMBER}"'
+        time bash run_momemta.sh "${INPUT_PATH}" "${OUTPUT_FILE}" "${NUMBER_OF_STEPS}" "${STEP_NUMBER}"'
