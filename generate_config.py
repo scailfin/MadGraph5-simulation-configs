@@ -36,6 +36,12 @@ def json_to_mg5(config):
     iseed = run_options.get("iseed", 0)
     mg5_str += "\n  # Set random seed"
     mg5_str += f"\n  set iseed {iseed}"
+
+    if "cuts" in run_options:
+        mg5_str += "\n  # Set cut values"
+        for cut, cut_value in run_options["cuts"].items():
+            mg5_str += f"\n  set {cut} {cut_value}"
+
     mg5_str += "\n"
 
     return mg5_str

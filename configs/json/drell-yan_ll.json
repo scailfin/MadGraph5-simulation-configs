@@ -8,8 +8,12 @@
     },
     "run": {
       "shower": "Pythia8",
-      "nevents": 10000,
-      "iseed": 0
+      "nevents": 5000,
+      "iseed": 0,
+      "cuts": {
+        "ptl": 25,
+        "etal": 2.5
+      }
     }
   },
   "version": "0.1.0"
