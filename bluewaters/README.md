@@ -36,6 +36,12 @@ bash run_delphes.sh drell-yan_ll
 bash run_preprocessing.sh drell-yan_ll
 ```
 
+* After the preprocessing jobs have all finished, combine them into a single ROOT file for MoMEMta to use
+
+```console
+bash combine_preprocessing.sh drell-yan_ll
+```
+
 * To then finally run MoMEMta for the hypothesis described with the [MoMEMta-MaGMEE](https://github.com/MoMEMta/MoMEMta-MaGMEE) MadGraph5 plugin run
 
 ```console
