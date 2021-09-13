@@ -11,13 +11,13 @@ fi
 mkdir MatrixElements
 pushd MatrixElements
 # Generate the matrix Element with MadGraph5
-mg5_aMC ../../../configs/momemta/drell-yan.mg5
+mg5_aMC ../../../configs/momemta/drell-yan_ll.mg5
 rm py.py
 popd
 
 # Build Matrix Element
 # c.f. https://github.com/MoMEMta/MoMEMta-MaGMEE#usage
-# Matrix Element namespace name defined in ../../../configs/momemta/drell-yan.mg5
+# Matrix Element namespace name defined in ../../../configs/momemta/drell-yan_ll.mg5
 cmake \
     -DCMAKE_INSTALL_PREFIX=/usr/local/venv \
     -S MatrixElements/pp_drell_yan \

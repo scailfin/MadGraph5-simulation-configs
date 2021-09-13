@@ -7,4 +7,4 @@ if [ -d drell-yan_output ];then
   rm -rf drell-yan_output
 fi
 
-mg5_aMC "$PWD/../configs/drell-yan/drell-yan.mg5"
+mg5_aMC "$PWD/../configs/drell-yan/drell-yan_ll.mg5"
