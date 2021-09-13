@@ -27,7 +27,7 @@
 # Ensure shifter enabled
 module load shifter
 
-TOPOLOGY="llbb"
+TOPOLOGY="ll"
 PHYSICS_PROCESS="drell-yan_${TOPOLOGY}"
 
 USER_SCRATCH="/mnt/c/scratch/sciteam/${USER}"
