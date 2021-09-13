@@ -6,7 +6,7 @@
 #PBS -l nodes=1:ppn=16:xe
 
 # Set the wallclock time
-#PBS -l walltime=0:30:00
+#PBS -l walltime=0:45:00
 
 # Use shifter queue
 #PBS -l gres=shifter
