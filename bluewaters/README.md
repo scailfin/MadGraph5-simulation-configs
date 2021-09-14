@@ -13,6 +13,12 @@ Once jobs are submitted they can be tracked in the batch system with
 qstat -u $USER
 ```
 
+and to show only the jobs currently running use
+
+```console
+qstat -r -u $USER
+```
+
 ### Example: Drell-Yan
 
 * Ensure there is a MadGraph5 steering script config at `configs/json/drell-yan_ll.json`
