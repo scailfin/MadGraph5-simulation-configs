@@ -47,7 +47,7 @@ cmake --build build \
 INPUT_PATH="${1:-/home/feickert/Code/GitHub/SCAILFIN/MadGraph5-simulation-configs/preprocessing/preprocessing_output.root}"
 OUTPUT_PATH="${2:-momemta_weights.root}"
 
-# Current configuration in topology_llbb.cxx requires running from top level of example dir
-time ./build/topology_llbb \
+# Current configuration in final_state_llbb.cxx requires running from top level of example dir
+time ./build/final_state_llbb \
   --input "${INPUT_PATH}" \
   --output "${OUTPUT_PATH}"
