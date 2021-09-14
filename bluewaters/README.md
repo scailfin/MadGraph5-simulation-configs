@@ -19,9 +19,20 @@ and to show only the jobs currently running use
 qstat -r -u $USER
 ```
 
+After each stage you can move all the logs generated to the appropriate output directory using `move_logs.sh`
+
+```console
+bash move_logs.sh <physics_process> <stage>
+# Example
+# bash move_logs.sh drell_yan_ll madgraph
+```
+
 ### Example: Drell-Yan
 
+#### Simulation
+
 * Ensure there is a MadGraph5 steering script config at `configs/json/drell-yan_ll.json`
+
 * One would then submit the Drell-Yan job with
 
 ```console
@@ -36,7 +47,7 @@ to generate LHE and HEPMC2 simulation files
 bash run_delphes.sh drell-yan_ll
 ```
 
-* To then run the preprocessing needed for MoMEMta to run, run
+* To then run the preprocessing needed for MoMEMta to run to move from detector level information to event level information, run
 
 ```console
 bash run_preprocessing.sh drell-yan_ll
@@ -47,6 +58,10 @@ bash run_preprocessing.sh drell-yan_ll
 ```console
 bash combine_preprocessing.sh drell-yan_ll
 ```
+
+which will produce the file `/mnt/c/scratch/sciteam/${USER}/drell-yan_ll/preprocessing/combined_preprocessing_output.root`.
+
+#### MoMEMta weight calculation
 
 * To then finally run MoMEMta for the hypothesis described with the [MoMEMta-MaGMEE](https://github.com/MoMEMta/MoMEMta-MaGMEE) MadGraph5 plugin run
 
@@ -59,6 +74,8 @@ bash run_momemta.sh drell-yan_ll
 ```console
 bash combine_momemta.sh drell-yan_ll
 ```
+
+which will produce the file `/mnt/c/scratch/sciteam/${USER}/drell-yan_ll/momemta/combined_momemta_weights.root`.
 
 ## Interactive Session
 
