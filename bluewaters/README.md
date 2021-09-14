@@ -29,7 +29,10 @@ bash move_logs.sh <physics_process> <stage>
 
 ### Example: Drell-Yan
 
+#### Simulation
+
 * Ensure there is a MadGraph5 steering script config at `configs/json/drell-yan_ll.json`
+
 * One would then submit the Drell-Yan job with
 
 ```console
@@ -57,6 +60,8 @@ bash combine_preprocessing.sh drell-yan_ll
 ```
 
 which will produce the file `/mnt/c/scratch/sciteam/${USER}/drell-yan_ll/preprocessing/combined_preprocessing_output.root`.
+
+#### MoMEMta weight calculation
 
 * To then finally run MoMEMta for the hypothesis described with the [MoMEMta-MaGMEE](https://github.com/MoMEMta/MoMEMta-MaGMEE) MadGraph5 plugin run
 
