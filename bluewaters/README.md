@@ -19,6 +19,14 @@ and to show only the jobs currently running use
 qstat -r -u $USER
 ```
 
+After each stage you can move all the logs generated to the appropriate output directory using `move_logs.sh`
+
+```console
+bash move_logs.sh <physics_process> <stage>
+# Example
+# bash move_logs.sh drell_yan_ll madgraph
+```
+
 ### Example: Drell-Yan
 
 * Ensure there is a MadGraph5 steering script config at `configs/json/drell-yan_ll.json`
