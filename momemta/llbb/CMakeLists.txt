@@ -28,12 +28,12 @@ find_library(ROOT_TREEPLAYER_LIBRARY TreePlayer HINTS ${ROOT_LIBRARY_DIR} REQUIR
 
 # Figure out what do do here and how to simplify things. Above is bolierplate and below is the code
 
-add_executable(topology_llbb "topology_llbb.cxx")
+add_executable(final_state_llbb "final_state_llbb.cxx")
 
-target_link_libraries(topology_llbb momemta::momemta)
+target_link_libraries(final_state_llbb momemta::momemta)
 # FIXME: The TTbar example uses TreePlayer so copy this here FOR NOW
-target_link_libraries(topology_llbb ${ROOT_TREEPLAYER_LIBRARY})
+target_link_libraries(final_state_llbb ${ROOT_TREEPLAYER_LIBRARY})
 
-set_target_properties(topology_llbb
+set_target_properties(final_state_llbb
       PROPERTIES
-      OUTPUT_NAME "topology_llbb")
+      OUTPUT_NAME "final_state_llbb")
