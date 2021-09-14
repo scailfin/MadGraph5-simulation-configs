@@ -29,8 +29,8 @@ module load bash
 # Ensure shifter enabled
 module load shifter
 
-TOPOLOGY="ll"
-PHYSICS_PROCESS="drell-yan_${TOPOLOGY}"
+FINAL_STATE="ll"
+PHYSICS_PROCESS="drell-yan_${FINAL_STATE}"
 CODE_BASE_PATH="/mnt/a/${HOME}/MadGraph5-simulation-configs"
 
 USER_SCRATCH="/mnt/c/scratch/sciteam/${USER}"

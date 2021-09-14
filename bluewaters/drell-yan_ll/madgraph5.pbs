@@ -29,8 +29,8 @@ if [ -z "${RANDOM_SEED}" ]; then
   RANDOM_SEED=${1:-999}
 fi
 
-TOPOLOGY="ll"
-PHYSICS_PROCESS="drell-yan_${TOPOLOGY}"
+FINAL_STATE="ll"
+PHYSICS_PROCESS="drell-yan_${FINAL_STATE}"
 CONFIG_NAME="${PHYSICS_PROCESS}.json"
 
 USER_SCRATCH="/mnt/c/scratch/sciteam/${USER}"

@@ -6,8 +6,8 @@ if [ "${BASH_VERSION:0:1}" -lt 4 ]; then
     exit 1
 fi
 
-TOPOLOGY="ll"
-PHYSICS_PROCESS="drell-yan_${TOPOLOGY}"
+FINAL_STATE="ll"
+PHYSICS_PROCESS="drell-yan_${FINAL_STATE}"
 PROCESS_DIRECTORY="${1:-${PHYSICS_PROCESS}}"
 
 USER_SCRATCH="/mnt/c/scratch/sciteam/${USER}"
