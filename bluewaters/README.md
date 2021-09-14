@@ -56,7 +56,7 @@ bash run_preprocessing.sh drell-yan_ll
 bash combine_preprocessing.sh drell-yan_ll
 ```
 
-which will produce the file `/mnt/c/scratch/sciteam/${USER}/<physics_process>/preprocessing/combined_preprocessing_output.root`.
+which will produce the file `/mnt/c/scratch/sciteam/${USER}/drell-yan_ll/preprocessing/combined_preprocessing_output.root`.
 
 * To then finally run MoMEMta for the hypothesis described with the [MoMEMta-MaGMEE](https://github.com/MoMEMta/MoMEMta-MaGMEE) MadGraph5 plugin run
 
@@ -70,7 +70,7 @@ bash run_momemta.sh drell-yan_ll
 bash combine_momemta.sh drell-yan_ll
 ```
 
-which will produce the file `/mnt/c/scratch/sciteam/${USER}/<physics_process>/momemta/combined_momemta_weights.root`.
+which will produce the file `/mnt/c/scratch/sciteam/${USER}/drell-yan_ll/momemta/combined_momemta_weights.root`.
 
 ## Interactive Session
 
