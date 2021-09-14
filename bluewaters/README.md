@@ -54,6 +54,12 @@ bash combine_preprocessing.sh drell-yan_ll
 bash run_momemta.sh drell-yan_ll
 ```
 
+* Then to combine the output of the MoMEMta jobs use
+
+```console
+bash combine_momemta.sh drell-yan_ll
+```
+
 ## Interactive Session
 
 If you need to run an interactive session (which will be slower) you can first allocate resources on the `shifter` queue from Torque with `qsub`
