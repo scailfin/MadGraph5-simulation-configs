@@ -44,7 +44,7 @@ to generate LHE and HEPMC2 simulation files
 bash run_delphes.sh drell-yan_ll
 ```
 
-* To then run the preprocessing needed for MoMEMta to run, run
+* To then run the preprocessing needed for MoMEMta to run to move from detector level information to event level information, run
 
 ```console
 bash run_preprocessing.sh drell-yan_ll
@@ -55,6 +55,8 @@ bash run_preprocessing.sh drell-yan_ll
 ```console
 bash combine_preprocessing.sh drell-yan_ll
 ```
+
+which will produce the file `/mnt/c/scratch/sciteam/${USER}/<physics_process>/preprocessing/combined_preprocessing_output.root`.
 
 * To then finally run MoMEMta for the hypothesis described with the [MoMEMta-MaGMEE](https://github.com/MoMEMta/MoMEMta-MaGMEE) MadGraph5 plugin run
 
@@ -67,6 +69,8 @@ bash run_momemta.sh drell-yan_ll
 ```console
 bash combine_momemta.sh drell-yan_ll
 ```
+
+which will produce the file `/mnt/c/scratch/sciteam/${USER}/<physics_process>/momemta/combined_momemta_weights.root`.
 
 ## Interactive Session
 
