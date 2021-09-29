@@ -3,17 +3,17 @@
 #include <momemta/MoMEMta.h>
 #include <momemta/Unused.h>
 
-#include <TTree.h>
+#include <Math/LorentzVector.h>
+#include <Math/PtEtaPhiM4D.h>
 #include <TChain.h>
+#include <TTree.h>
 #include <TTreeReader.h>
 #include <TTreeReaderValue.h>
-#include <Math/PtEtaPhiM4D.h>
-#include <Math/LorentzVector.h>
 
 #include <chrono>
-#include <memory>
 #include <iostream>
-#include <stdlib.h>  // provide: exit, EXIT_FAILURE
+#include <memory>
+#include <stdlib.h> // provide: exit, EXIT_FAILURE
 
 using LorentzVectorM = ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float>>;
 
@@ -24,31 +24,30 @@ using LorentzVectorM = ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float>>
  */
 
 void normalizeInput(LorentzVector& p4) {
-    if (p4.M() > 0)
+    if(p4.M() > 0)
         return;
 
     // Increase the energy until M is positive
     p4.SetE(p4.P());
-    while (p4.M2() < 0) {
+    while(p4.M2() < 0) {
         double delta = p4.E() * 1e-5;
         p4.SetE(p4.E() + delta);
     };
 }
 
 int main(int argc, char** argv) {
+    std::string inputPath;                           // required input
+    std::string outputPath;                          // required input
+    std::string configPath{"drell-yan_example.lua"}; // default value
+    std::string chainName{"event_selection/hftree"}; // default value
+    int totalSteps{0};                               // default value
+    int stepNumber{0};                               // default value
+    std::vector<std::string> unusedCLIArguments;
 
-    std::string inputPath;  // required input
-    std::string outputPath;  // required input
-    std::string configPath {"drell-yan_example.lua"};  // default value
-    std::string chainName {"event_selection/hftree"};  // default value
-    int totalSteps {0};  // default value
-    int stepNumber {0};  // default value
-    std::vector <std::string> unusedCLIArguments;
-
-    for (int idx = 1; idx < argc; ++idx) {
+    for(int idx = 1; idx < argc; ++idx) {
         // --input
-        if (std::string(argv[idx]) == "--input") {
-            if (idx + 1 < argc) { // Make sure not at the end of argv
+        if(std::string(argv[idx]) == "--input") {
+            if(idx + 1 < argc) {         // Make sure not at the end of argv
                 inputPath = argv[++idx]; // value is argv entry after flag
             } else {
                 std::cerr << "--input option requires one argument." << std::endl;
@@ -56,8 +55,8 @@ int main(int argc, char** argv) {
             }
         }
         // --output
-        else if (std::string(argv[idx]) == "--output") {
-            if (idx + 1 < argc) {
+        else if(std::string(argv[idx]) == "--output") {
+            if(idx + 1 < argc) {
                 outputPath = argv[++idx];
             } else {
                 std::cerr << "--output option requires one argument." << std::endl;
@@ -65,38 +64,38 @@ int main(int argc, char** argv) {
             }
         }
         // --chain
-        else if (std::string(argv[idx]) == "--chain") {
-            if (idx + 1 < argc) {
+        else if(std::string(argv[idx]) == "--chain") {
+            if(idx + 1 < argc) {
                 chainName = argv[++idx];
             }
         }
         // --luaconfig
-        else if (std::string(argv[idx]) == "--luaconfig") {
-            if (idx + 1 < argc) {
+        else if(std::string(argv[idx]) == "--luaconfig") {
+            if(idx + 1 < argc) {
                 configPath = argv[++idx];
             }
         }
         // --nsteps
-        else if (std::string(argv[idx]) == "--nsteps") {
-            if (idx + 1 < argc) {
+        else if(std::string(argv[idx]) == "--nsteps") {
+            if(idx + 1 < argc) {
                 totalSteps = std::stoi(argv[++idx]);
             }
         }
         // --step
-        else if (std::string(argv[idx]) == "--step") {
-            if (idx + 1 < argc) {
+        else if(std::string(argv[idx]) == "--step") {
+            if(idx + 1 < argc) {
                 stepNumber = std::stoi(argv[++idx]);
             }
-        }
-        else {
+        } else {
             unusedCLIArguments.push_back(argv[idx]);
         }
     }
 
-    if (totalSteps > 0 && (stepNumber == totalSteps)) {
+    if(totalSteps > 0 && (stepNumber == totalSteps)) {
         std::cerr << "\n# ERROR: CLI arguments --nsteps and --step are the same: "
-        << "--nsteps " << totalSteps << " --step " << stepNumber << "\n"
-        << "This would result in an error so exiting now.\n" << std::endl;
+                  << "--nsteps " << totalSteps << " --step " << stepNumber << "\n"
+                  << "This would result in an error so exiting now.\n"
+                  << std::endl;
         exit(EXIT_FAILURE);
     }
 
@@ -134,7 +133,8 @@ int main(int argc, char** argv) {
     TTreeReaderValue<float> bjet2_Pz(treeReader, "bjet2_Pz");
     TTreeReaderValue<float> bjet2_E(treeReader, "bjet2_E");
 
-    // Define output TTree, which will contain the weights we're computing (including uncertainty and computation time)
+    // Define output TTree, which will contain the weights we're computing (including
+    // uncertainty and computation time)
     std::unique_ptr<TTree> out_tree = std::make_unique<TTree>("momemta", "momemta");
     double weight_DY, weight_DY_err, weight_DY_time;
     out_tree->Branch("weight_DY", &weight_DY);
@@ -154,87 +154,106 @@ int main(int argc, char** argv) {
     // Instantiate MoMEMta using a **frozen** configuration
     MoMEMta weight(configuration.freeze());
 
-    // c.f. https://root.cern.ch/doc/v624/classTTreeReader.html#abe0530cfddbf50d5266d3d9ebb68972b
-    int totalNEvents = treeReader.GetEntries(true);
+    // c.f.
+    // https://root.cern.ch/doc/v624/classTTreeReader.html#abe0530cfddbf50d5266d3d9ebb68972b
+    int totalNEvents     = treeReader.GetEntries(true);
     int fractionOfEvents = totalNEvents / 20;
 
     int counter = 0;
 
-    if (totalSteps > 0) {
-        std::vector<int> steps {};
-        int stepSize {
-            static_cast<int>( std::round(totalNEvents/static_cast<float>(totalSteps)) )
-        };
+    if(totalSteps > 0) {
+        std::vector<int> steps{};
+        int stepSize{static_cast<int>(
+            std::round(totalNEvents / static_cast<float>(totalSteps)))};
 
-        for (int n = 0; n < totalSteps; ++n)
-            steps.push_back(n*stepSize);
+        for(int n = 0; n < totalSteps; ++n)
+            steps.push_back(n * stepSize);
         // push_back outside of the loop instead of using `n <= totalSteps` as
         // there will probably be a non-integer unrounded step size, so make
         // the last step big enough to get the remainder
         steps.push_back(totalNEvents);
 
         std::cout << "\n# calculating weights for event range: ("
-        << steps.at(stepNumber) << ", " << steps.at(stepNumber+1)-1 << ")\n" << std::endl;
+                  << steps.at(stepNumber) << ", " << steps.at(stepNumber + 1) - 1
+                  << ")\n"
+                  << std::endl;
 
-        // This call is usually followed by an iteration of the range using TTreeReader::Next(),
-        // which will visit the the entries from begiNEntry to endEntry - 1.
-        treeReader.SetEntriesRange(steps.at(stepNumber), steps.at(stepNumber+1));
+        // This call is usually followed by an iteration of the range using
+        // TTreeReader::Next(), which will visit the the entries from begiNEntry to
+        // endEntry - 1.
+        treeReader.SetEntriesRange(steps.at(stepNumber), steps.at(stepNumber + 1));
 
         counter = steps.at(stepNumber);
     }
 
-    while (treeReader.Next()) {
+    while(treeReader.Next()) {
         /*
          * Prepare the LorentzVectors passed to MoMEMta:
          * In the input file they are written in the PtEtaPhiM<float> basis,
-         * while MoMEMta expects PxPyPzE<double>, so we have to perform this change of basis:
+         * while MoMEMta expects PxPyPzE<double>, so we have to perform this change of
+         * basis:
          *
-         * We define here Particles, allowing MoMEMta to correctly map the inputs to the configuration file.
-         * The string identifier used here must be the same as used to declare the inputs in the config file
+         * We define here Particles, allowing MoMEMta to correctly map the inputs to the
+         * configuration file. The string identifier used here must be the same as used
+         * to declare the inputs in the config file
          */
-        // momemta::Particle lep_plus("lepton1",  LorentzVector { lep_plus_p4M->Px(), lep_plus_p4M->Py(), lep_plus_p4M->Pz(), lep_plus_p4M->E() });
-        // momemta::Particle lep_minus("lepton2", LorentzVector { lep_minus_p4M->Px(), lep_minus_p4M->Py(), lep_minus_p4M->Pz(), lep_minus_p4M->E() });
-        momemta::Particle lep_plus("lepton1",  LorentzVector { *lep_plus_Px, *lep_plus_Py, *lep_plus_Pz, *lep_plus_E });
-        momemta::Particle lep_minus("lepton2", LorentzVector { *lep_minus_Px, *lep_minus_Py, *lep_minus_Pz, *lep_minus_E });
-        momemta::Particle bjet1("bjet1", LorentzVector { *bjet1_Px, *bjet1_Py, *bjet1_Pz, *bjet1_E });
-        momemta::Particle bjet2("bjet2", LorentzVector { *bjet2_Px, *bjet2_Py, *bjet2_Pz, *bjet2_E });
+        // momemta::Particle lep_plus("lepton1",  LorentzVector { lep_plus_p4M->Px(),
+        // lep_plus_p4M->Py(), lep_plus_p4M->Pz(), lep_plus_p4M->E() });
+        // momemta::Particle lep_minus("lepton2", LorentzVector { lep_minus_p4M->Px(),
+        // lep_minus_p4M->Py(), lep_minus_p4M->Pz(), lep_minus_p4M->E() });
+        momemta::Particle lep_plus(
+            "lepton1",
+            LorentzVector{*lep_plus_Px, *lep_plus_Py, *lep_plus_Pz, *lep_plus_E});
+        momemta::Particle lep_minus(
+            "lepton2",
+            LorentzVector{*lep_minus_Px, *lep_minus_Py, *lep_minus_Pz, *lep_minus_E});
+        momemta::Particle bjet1(
+            "bjet1", LorentzVector{*bjet1_Px, *bjet1_Py, *bjet1_Pz, *bjet1_E});
+        momemta::Particle bjet2(
+            "bjet2", LorentzVector{*bjet2_Px, *bjet2_Py, *bjet2_Pz, *bjet2_E});
 
-        // Due to numerical instability, the mass can sometimes be negative. If it's the case, change the energy in order to be mass-positive
+        // Due to numerical instability, the mass can sometimes be negative. If it's the
+        // case, change the energy in order to be mass-positive
         normalizeInput(lep_plus.p4);
         normalizeInput(lep_minus.p4);
         normalizeInput(bjet1.p4);
         normalizeInput(bjet2.p4);
 
         // Ensure the leptons are given in the correct order w.r.t their charge
-        if (*leading_lep_PID < 0)
+        if(*leading_lep_PID < 0)
             swap(lep_plus, lep_minus);
 
         auto start_time = std::chrono::system_clock::now();
         // Compute the weights!
         // MoMEMta::computeWeights({vector of particles}, met)
         // The MET is an optional argument (defaults to a null vector)
-        std::vector<std::pair<double, double>> weights = weight.computeWeights({lep_minus, lep_plus, bjet1, bjet2});
+        std::vector<std::pair<double, double>> weights
+            = weight.computeWeights({lep_minus, lep_plus, bjet1, bjet2});
         auto end_time = std::chrono::system_clock::now();
 
         // Retrieve the weight and uncertainty
-        weight_DY = weights.back().first;
-        weight_DY_err = weights.back().second;
-        weight_DY_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
+        weight_DY      = weights.back().first;
+        weight_DY_err  = weights.back().second;
+        weight_DY_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                             end_time - start_time)
+                             .count();
 
-        LOG(debug) << "Event " << treeReader.GetCurrentEntry() << " result: " << weight_DY << " +- " << weight_DY_err;
+        LOG(debug) << "Event " << treeReader.GetCurrentEntry()
+                   << " result: " << weight_DY << " +- " << weight_DY_err;
         LOG(info) << "Weight computed in " << weight_DY_time << "ms";
 
         out_tree->Fill();
 
         ++counter;
-        if (counter % fractionOfEvents == 0) {
-            std::cout << "calculated weights for " << counter << " events (" << std::round(counter*100./totalNEvents)
-            << "% of " << totalNEvents << " events)\n";
+        if(counter % fractionOfEvents == 0) {
+            std::cout << "calculated weights for " << counter << " events ("
+                      << std::round(counter * 100. / totalNEvents) << "% of "
+                      << totalNEvents << " events)\n";
         }
-
     }
-    std::cout << "calculated weights for " << counter << " events (" << std::round(counter*100./totalNEvents)
-    << "% of " << totalNEvents << " events)\n";
+    std::cout << "calculated weights for " << counter << " events ("
+              << std::round(counter * 100. / totalNEvents) << "% of " << totalNEvents
+              << " events)\n";
 
     // Save output to TTree
     out_tree->SaveAs(outputPath.c_str());
