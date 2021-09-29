@@ -15,6 +15,11 @@ repos:
     - id: mixed-line-ending
     - id: trailing-whitespace
 
+-   repo: https://github.com/ssciwr/clang-format-precommit
+    rev: v12.0.1
+    hooks:
+    - id: clang-format
+
 -   repo: https://github.com/pycqa/isort
     rev: 5.9.3
     hooks:
