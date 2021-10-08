@@ -4,7 +4,7 @@ INPUTS_DIR=/root/inputs
 PHYSICS_PROCESS="drell-yan_ll"
 CONFIG_NAME="${PHYSICS_PROCESS}.json"
 
-if [[ -d "outputs" ]]; then
+if [[ ! -d "outputs" ]]; then
     mkdir -p outputs
 fi
 cd outputs
