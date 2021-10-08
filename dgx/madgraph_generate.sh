@@ -4,6 +4,11 @@ INPUTS_DIR=/root/inputs
 PHYSICS_PROCESS="drell-yan_ll"
 CONFIG_NAME="${PHYSICS_PROCESS}.json"
 
+if [[ -d "outputs" ]]; then
+    mkdir -p outputs
+fi
+cd outputs
+
 printf "\n# printenv:\n"
 printenv
 printf "\n\n"
