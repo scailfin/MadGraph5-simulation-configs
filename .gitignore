@@ -144,3 +144,6 @@ MatrixElements/
 
 # Failure
 core
+
+# Run artifacts
+outputs/
