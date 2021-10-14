@@ -15,4 +15,4 @@ docker run \
     -v "$PWD/..":/root/inputs \
     -v "$PWD":/root/data/ \
     --privileged=true \
-    "${IMAGE}" "bash ${PHYSICS_PROCESS}/momemta.sh"
+    "${IMAGE}" "bash ${PHYSICS_PROCESS}/momemta.sh ${PHYSICS_PROCESS}"

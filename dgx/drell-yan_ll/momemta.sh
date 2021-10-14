@@ -2,7 +2,7 @@
 
 BASE_PREFIX="/root/data"
 INPUTS_DIR=/root/inputs
-PHYSICS_PROCESS="drell-yan_ll"
+PHYSICS_PROCESS="${1:-drell-yan_ll}"
 
 if [[ ! -d "outputs/${PHYSICS_PROCESS}/momemta" ]]; then
     mkdir -p "outputs/${PHYSICS_PROCESS}/momemta"
@@ -73,11 +73,11 @@ cmake \
     --clean-first \
     --parallel $(($(nproc) - 1))
 
-INPUT_PATH="${1:-${BASE_PREFIX}/outputs/${PHYSICS_PROCESS}/preprocessing/preprocessing_output.root}"
-OUTPUT_PATH="${2:-momemta_weights.root}"
-NUMBER_OF_STEPS="${3:-0}"
+INPUT_PATH="${2:-${BASE_PREFIX}/outputs/${PHYSICS_PROCESS}/preprocessing/preprocessing_output.root}"
+OUTPUT_PATH="${3:-momemta_weights.root}"
+NUMBER_OF_STEPS="${4:-0}"
 # N.B.: STEP_NUMBER is 0 indexed
-STEP_NUMBER="${4:-0}"
+STEP_NUMBER="${5:-0}"
 
 # Current configuration in drell_yan.cxx requires running from top level of example dir
 time ./build/drell-yan_example \
