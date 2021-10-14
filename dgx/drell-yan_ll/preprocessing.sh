@@ -3,10 +3,10 @@
 INPUTS_DIR=/root/inputs
 PHYSICS_PROCESS="drell-yan_ll"
 
-if [[ ! -d "outputs/preprocess" ]]; then
-    mkdir -p outputs/preprocess
+if [[ ! -d "outputs/${PHYSICS_PROCESS}/preprocessing" ]]; then
+    mkdir -p "outputs/${PHYSICS_PROCESS}/preprocessing"
 fi
-cd outputs/preprocess
+cd "outputs/${PHYSICS_PROCESS}/preprocessing"
 
 printf "\n# printenv:\n"
 printenv
