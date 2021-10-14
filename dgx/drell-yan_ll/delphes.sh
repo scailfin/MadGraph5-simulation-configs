@@ -4,12 +4,12 @@ BASE_PREFIX="/root/data"
 INPUTS_DIR=/root/inputs
 PHYSICS_PROCESS="drell-yan_ll"
 
-if [[ ! -d "outputs/delphes" ]]; then
-    mkdir -p outputs/delphes
-fi
-cd outputs/delphes
+INPUT_FILE_PATH="${BASE_PREFIX}/outputs/${PHYSICS_PROCESS}/madgraph/${PHYSICS_PROCESS}_output/Events/run_01/tag_1_pythia8_events.hepmc"
 
-INPUT_FILE_PATH="${BASE_PREFIX}/outputs/madgraph/${PHYSICS_PROCESS}_output/Events/run_01/tag_1_pythia8_events.hepmc"
+if [[ ! -d "outputs/${PHYSICS_PROCESS}/delphes" ]]; then
+    mkdir -p "outputs/${PHYSICS_PROCESS}/delphes"
+fi
+cd "outputs/${PHYSICS_PROCESS}/delphes"
 
 printf "\n# printenv:\n"
 printenv
