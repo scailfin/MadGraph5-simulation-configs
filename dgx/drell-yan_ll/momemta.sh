@@ -19,11 +19,9 @@ printf "\n\n"
 
 ###
 
-mkdir -p "${PHYSICS_PROCESS}"
 mkdir -p configs/momemta/
-cp -r "${INPUTS_DIR}/momemta/${PHYSICS_PROCESS}"/ .
+cp -r "${INPUTS_DIR}/momemta/${PHYSICS_PROCESS}"/* .
 cp -r "${INPUTS_DIR}/configs/momemta/" configs/
-cd "${PHYSICS_PROCESS}"
 
 # Run this inside of the directory for the hypothesis
 
@@ -36,7 +34,7 @@ fi
 mkdir MatrixElements
 pushd MatrixElements
 # Generate the matrix Element with MadGraph5
-mg5_aMC ../../configs/momemta/drell-yan_ll.mg5
+mg5_aMC ../configs/momemta/drell-yan_ll.mg5
 rm py.py
 popd
 
