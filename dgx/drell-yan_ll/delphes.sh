@@ -2,7 +2,7 @@
 
 BASE_PREFIX="/root/data"
 INPUTS_DIR=/root/inputs
-PHYSICS_PROCESS="drell-yan_ll"
+PHYSICS_PROCESS="${1:-drell-yan_ll}"
 
 INPUT_FILE_PATH="${BASE_PREFIX}/outputs/${PHYSICS_PROCESS}/madgraph/${PHYSICS_PROCESS}_output/Events/run_01/tag_1_pythia8_events.hepmc"
 
