@@ -4,10 +4,10 @@ INPUTS_DIR=/root/inputs
 PHYSICS_PROCESS="drell-yan_ll"
 CONFIG_NAME="${PHYSICS_PROCESS}.json"
 
-if [[ ! -d "outputs/madgraph" ]]; then
-    mkdir -p outputs/madgraph
+if [[ ! -d "outputs/${PHYSICS_PROCESS}/madgraph" ]]; then
+    mkdir -p "outputs/${PHYSICS_PROCESS}/madgraph"
 fi
-cd outputs/madgraph
+cd "outputs/${PHYSICS_PROCESS}/madgraph"
 
 printf "\n# printenv:\n"
 printenv
@@ -17,8 +17,7 @@ python "${INPUTS_DIR}/generate_config.py" --help
 
 echo ""
 
-python \
-    "${INPUTS_DIR}"/generate_config.py \
+python "${INPUTS_DIR}"/generate_config.py \
         -c "${INPUTS_DIR}/configs/json/${CONFIG_NAME}" \
         --outpath $PWD \
         --seed 0
