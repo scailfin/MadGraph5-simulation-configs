@@ -1,7 +1,7 @@
 #!/bin/bash
 
 INPUTS_DIR=/root/inputs
-PHYSICS_PROCESS="drell-yan_ll"
+PHYSICS_PROCESS="${1:-drell-yan_ll}"
 CONFIG_NAME="${PHYSICS_PROCESS}.json"
 
 if [[ ! -d "outputs/${PHYSICS_PROCESS}/madgraph" ]]; then
