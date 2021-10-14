@@ -4,7 +4,7 @@
 IMAGE="neubauergroup/bluewaters-mg5_amc:3.1.1"
 docker pull "${IMAGE}"
 
-PHYSICS_PROCESS="drell-yan_ll"
+PHYSICS_PROCESS="${1:-drell-yan_ll}"
 
 if [[ ! -d "outputs/${PHYSICS_PROCESS}/madgraph" ]]; then
     mkdir -p "outputs/${PHYSICS_PROCESS}/madgraph"

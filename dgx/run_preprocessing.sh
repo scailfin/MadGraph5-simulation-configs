@@ -3,7 +3,7 @@
 IMAGE="scailfin/delphes-python-centos:3.5.0"
 docker pull "${IMAGE}"
 
-PHYSICS_PROCESS="drell-yan_ll"
+PHYSICS_PROCESS="${1:-drell-yan_ll}"
 
 if [[ ! -d "outputs/${PHYSICS_PROCESS}/preprocessing" ]]; then
     mkdir -p "outputs/${PHYSICS_PROCESS}/preprocessing"
