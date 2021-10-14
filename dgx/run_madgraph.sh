@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# IMAGE="scailfin/madgraph5-amc-nlo-centos:mg5_amc3.2.0"
 IMAGE="neubauergroup/bluewaters-mg5_amc:3.1.1"
 docker pull "${IMAGE}"
 
