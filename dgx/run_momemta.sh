@@ -3,7 +3,7 @@
 IMAGE="neubauergroup/bluewaters-momemta:1.0.1"
 docker pull "${IMAGE}"
 
-PHYSICS_PROCESS="drell-yan_ll"
+PHYSICS_PROCESS="${1:-drell-yan_ll}"
 
 if [[ ! -d "outputs/${PHYSICS_PROCESS}/momemta" ]]; then
     mkdir -p "outputs/${PHYSICS_PROCESS}/momemta"
