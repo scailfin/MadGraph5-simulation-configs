@@ -15,4 +15,4 @@ docker run \
     -v "$PWD/..":/root/inputs \
     -v "$PWD":/root/data/ \
     --privileged=true \
-    "${IMAGE}" "bash ${PHYSICS_PROCESS}/preprocessing.sh"
+    "${IMAGE}" "bash ${PHYSICS_PROCESS}/preprocessing.sh ${PHYSICS_PROCESS}"
